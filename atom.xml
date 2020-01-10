@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://cisse-away.github.io/</id>
-    <title>Gridea</title>
-    <updated>2020-01-10T04:05:00.691Z</updated>
+    <title>CisseAway&apos;s blog</title>
+    <updated>2020-01-10T05:05:12.305Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://cisse-away.github.io/"/>
     <link rel="self" href="https://cisse-away.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>Record growth</subtitle>
     <logo>https://cisse-away.github.io/images/avatar.png</logo>
     <icon>https://cisse-away.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Gridea</rights>
+    <rights>All rights reserved 2020, CisseAway&apos;s blog</rights>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://cisse-away.github.io/post/hello-gridea</id>
