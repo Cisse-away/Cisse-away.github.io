@@ -1,0 +1,441 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Leetcode刷题笔记—两数相加 | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Leetcode刷题笔记—两数相加
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-04-27 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/Lxj3KvYjR/" class="post-tags">
+                            # 中等题
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/Ei0TKQOqN/" class="post-tags">
+                            # leetcode
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p><a href="https://leetcode-cn.com/problems/add-two-numbers/">题目链接</a></p>
+<h2 id="题目描述">题目描述</h2>
+<p>给你两个<strong>非空</strong>的链表，表示两个非负的整数。它们每位数字都是按照<strong>逆序</strong>的方式存储的，并且每个节点只能存储<strong>一位</strong>数字。<br>
+请你将两个数相加，并以相同形式返回一个表示和的链表。<br>
+你可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
+<p><strong>示例 1：</strong><br>
+<img src="https://cisse-away.github.io//post-images/1619526132451.jpg" alt="" loading="lazy"></p>
+<blockquote>
+<p><strong>输入：</strong> l1 = [2,4,3], l2 = [5,6,4]<br>
+<strong>输出：</strong> [7,0,8]<br>
+<strong>解释：</strong> 342 + 465 = 807.</p>
+</blockquote>
+<p><strong>示例 2：</strong></p>
+<blockquote>
+<p><strong>输入：</strong> l1 = [0], l2 = [0]<br>
+<strong>输出：</strong> [0]</p>
+</blockquote>
+<p><strong>示例 3：</strong></p>
+<blockquote>
+<p><strong>输入：</strong> l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]<br>
+<strong>输出：</strong> [8,9,9,9,0,0,0,1]<br>
+ <br>
+<strong>提示：</strong></p>
+</blockquote>
+<ul>
+<li>每个链表中的节点数在范围 [1, 100] 内</li>
+<li>0 &lt;= Node.val &lt;= 9</li>
+<li>题目数据保证列表表示的数字不含前导零</li>
+</ul>
+<h2 id="个人题解">个人题解</h2>
+<ol>
+<li>C++实现：<pre><code class="language-c++">ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *p = new ListNode();
+        ListNode *h = p; 
+        ListNode *p1 = l1, *p2 = l2;
+        int f = 0;
+        while(p1 != NULL &amp;&amp; p2 != NULL) {
+            int sum = p1-&gt;val + p2-&gt;val + f;
+            ListNode* t = new ListNode(sum % 10);
+            if(sum &gt; 9) 
+                f = 1;
+            else 
+                f = 0;
+            p-&gt;next = t;
+            p = t;
+            p1 = p1-&gt;next;
+            p2 = p2-&gt;next;
+        }
+        while(p1 != NULL) {
+            int sum = p1-&gt;val + f;
+            ListNode* t = new ListNode(sum % 10);
+            if(sum &gt; 9) 
+                f = 1;
+            else 
+                f = 0;
+            p-&gt;next = t;
+            p = t;
+            p1 = p1-&gt;next;
+        }
+        while(p2 != NULL) {
+            int sum = p2-&gt;val + f;
+            ListNode* t = new ListNode(sum % 10);
+            if(sum &gt; 9) 
+                f = 1;
+            else 
+                f = 0;
+            p-&gt;next = t;
+            p = t;
+            p2 = p2-&gt;next;
+        }
+        if (f == 1) {
+            ListNode* t = new ListNode(1);
+            p-&gt;next = t;
+        }
+        return h-&gt;next;
+    }
+</code></pre>
+</li>
+<li>Python3实现：<pre><code class="language-python">def addTwoNumbers(self, l1: ListNode, l2: ListNode) -&gt; ListNode:
+     h = p = ListNode()
+     f = 0
+     while l1 != None and l2 != None:        
+         sum = l1.val + l2.val + f
+         t = ListNode(sum % 10)
+         p.next = t
+         p = t
+         if sum &gt; 9: f = 1
+         else: f = 0
+         l1 = l1.next
+         l2 = l2.next
+     while l1 != None:
+         sum = l1.val + f
+         t = ListNode(sum % 10)
+         p.next = t
+         p = t
+         if sum &gt; 9: f = 1
+         else: f = 0
+         l1 = l1.next
+     while l2 != None:
+         sum = l2.val + f
+         t = ListNode(sum % 10)
+         p.next = t
+         p = t
+         if sum &gt; 9: f = 1
+         else: f = 0
+         l2 = l2.next
+     if f == 1: p.next = ListNode(1)
+     return h.next
+</code></pre>
+</li>
+</ol>
+<h2 id="leetcode题解">Leetcode题解</h2>
+<ol>
+<li>C++实现：<pre><code class="language-c++">ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+     ListNode *head = nullptr, *tail = nullptr;
+     int carry = 0;
+     while (l1 || l2) {
+         int n1 = l1 ? l1-&gt;val: 0;
+         int n2 = l2 ? l2-&gt;val: 0;
+         int sum = n1 + n2 + carry;
+         if (!head) {
+             head = tail = new ListNode(sum % 10);
+         } else {
+             tail-&gt;next = new ListNode(sum % 10);
+             tail = tail-&gt;next;
+         }
+         carry = sum / 10;
+         if (l1) {
+             l1 = l1-&gt;next;
+         }
+         if (l2) {
+             l2 = l2-&gt;next;
+         }
+     }
+     if (carry &gt; 0) {
+         tail-&gt;next = new ListNode(carry);
+     }
+     return head;
+ }
+</code></pre>
+</li>
+<li>Python3实现：<pre><code class="language-python">def addTwoNumbers(self, l1, l2):
+     count = 0
+     ret = ListNode()
+     tmp = ret
+     while l1 or l2 or count:
+         num = 0
+         if l1:
+             num += l1.val
+             l1 = l1.next
+         if l2:
+             num += l2.val
+             l2 = l2.next
+         if count:
+             num += count
+             count -= 1
+         count, num = divmod(num, 10)
+         tmp.next = ListNode(num)
+         tmp = tmp.next
+     return ret.next
+</code></pre>
+</li>
+</ol>
+<blockquote>
+<p>divmod() 函数把除数和余数运算结果结合起来，返回一个包含商和余数的元组(a // b, a % b)。</p>
+</blockquote>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/linux-mu-lu-jie-gou/" class="post-title gt-a-link">
+                    Linux目录结构
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

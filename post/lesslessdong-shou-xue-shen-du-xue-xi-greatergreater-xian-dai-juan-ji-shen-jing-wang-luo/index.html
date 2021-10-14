@@ -1,0 +1,720 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>《动手学深度学习》——现代卷积神经网络 | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    《动手学深度学习》——现代卷积神经网络
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-08-18 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/hYv6ViS1w/" class="post-tags">
+                            # Deeplearning
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/ikIb3j07A/" class="post-tags">
+                            # 技术学习
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p><a href="https://zh-v2.d2l.ai/chapter_convolutional-modern/index.html">参考教程</a></p>
+<h2 id="深度卷积神经网络alexnet">深度卷积神经网络(AlexNet)</h2>
+<h3 id="计算机视觉流水线">计算机视觉流水线</h3>
+<ol>
+<li>在传统机器学习方法中，计算机视觉流水线是由经过人的手工精心设计的特征流水线组成的。对于这些传统方法，大部分的进展都来自于对特征有了更聪明的想法，并且学习到的算法往往归于事后的解释</li>
+<li>与训练端到端（从像素到分类结果）系统不同，经典机器学习的流水线看起来更像下面这样：
+<ul>
+<li>获取一个有趣的数据集。在早期，收集这些数据集需要昂贵的传感器</li>
+<li>根据光学、几何学、其他知识以及偶然的发现，手工对特征数据集进行预处理</li>
+<li>通过标准的特征提取算法（如SIFT（尺度不变特征变换、SURF（加速鲁棒特征或其他手动调整的流水线来输入数据</li>
+<li>将提取的特征放到最喜欢的分类器中（例如线性模型或其它核方法），以训练分类器</li>
+</ul>
+</li>
+</ol>
+<h3 id="学习表征">学习表征</h3>
+<ol>
+<li>观察图像特征的提取方法，SIFT、SURF、HOG（定向梯度直方图）、bags of visual words 和类似的特征提取方法占据了主导地位</li>
+<li>另一组研究人员认为特征本身应该被学习，在合理地复杂性前提下，特征应该由多个共同学习的神经网络层组成，每个层都有可学习的参数。在机器视觉中，最底层可能检测边缘、颜色和纹理。</li>
+</ol>
+<h3 id="alexnet">Alexnet</h3>
+<blockquote>
+<p>2012年，AlexNet横空出世。它首次证明了学习到的特征可以超越手工设计的特征。它一举打破了计算机视觉研究的现状。</p>
+</blockquote>
+<ol>
+<li>AlexNet和LeNet的架构非常相似：<img src="https://cisse-away.github.io//post-images/1628388576399.svg" alt="Alexnet" loading="lazy"></li>
+<li>模型设计：
+<ul>
+<li>在AlexNet的第一层，卷积窗口的形状是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>11</mn><mo>×</mo><mn>11</mn></mrow><annotation encoding="application/x-tex">11\times11</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">1</span></span></span></span> 。 由于ImageNet中大多数图像的宽和高比MNIST图像的多10倍以上，因此，需要一个更大的卷积窗口来捕获目标</li>
+<li>第二层中的卷积窗口形状被缩减为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>5</mn><mo>×</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">5\times5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span></span></span></span>，然后是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3\times3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span></li>
+<li>在第一层、第二层和第五层卷积层之后，加入窗口形状为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3\times3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span> 、步幅为2的最大汇聚层。 而且AlexNet的卷积通道数目是LeNet的10倍。</li>
+<li>在最后一个卷积层后有两个全连接层，分别有4096个输出。 这两个巨大的全连接层拥有将近1GB的模型参数。</li>
+</ul>
+</li>
+<li>激活函数<br>
+AlexNet将sigmoid激活函数改为更简单的ReLU激活函数：
+<ul>
+<li>ReLU激活函数的计算更简单，它不需要如sigmoid激活函数那般复杂的求幂运算</li>
+<li>当使用不同的参数初始化方法时，ReLU激活函数使训练模型更加容易</li>
+</ul>
+</li>
+<li>容量控制和预处理
+<ul>
+<li>AlexNet通过dropout控制全连接层的模型复杂度，而LeNet只使用了权重衰减</li>
+<li>AlexNet在训练时增加了大量的图像增强数据，如翻转、裁切和变色</li>
+</ul>
+</li>
+<li>网络结构实现：<pre><code class="language-python">net = nn.Sequential(
+    # 这里，我们使用一个11*11的更大窗口来捕捉对象。
+    # 同时，步幅为4，以减少输出的高度和宽度。
+    # 另外，输出通道的数目远大于LeNet
+    nn.Conv2d(1, 96, kernel_size=11, stride=4, padding=1), nn.ReLU(),
+    nn.MaxPool2d(kernel_size=3, stride=2),
+    # 减小卷积窗口，使用填充为2来使得输入与输出的高和宽一致，且增大输出通道数
+    nn.Conv2d(96, 256, kernel_size=5, padding=2), nn.ReLU(),
+    nn.MaxPool2d(kernel_size=3, stride=2),
+    # 使用三个连续的卷积层和较小的卷积窗口。
+    # 除了最后的卷积层，输出通道的数量进一步增加。
+    # 在前两个卷积层之后，汇聚层不用于减少输入的高度和宽度
+    nn.Conv2d(256, 384, kernel_size=3, padding=1), nn.ReLU(),
+    nn.Conv2d(384, 384, kernel_size=3, padding=1), nn.ReLU(),
+    nn.Conv2d(384, 256, kernel_size=3, padding=1), nn.ReLU(),
+    nn.MaxPool2d(kernel_size=3, stride=2),
+    nn.Flatten(),
+    # 这里，全连接层的输出数量是LeNet中的好几倍。使用dropout层来减轻过度拟合
+    nn.Linear(6400, 4096), nn.ReLU(),
+    nn.Dropout(p=0.5),
+    nn.Linear(4096, 4096), nn.ReLU(),
+    nn.Dropout(p=0.5),
+    # 最后是输出层。由于这里使用Fashion-MNIST，所以用类别数为10，而非论文中的1000
+    nn.Linear(4096, 10))
+</code></pre>
+</li>
+</ol>
+<h3 id="使用块的网络vgg">使用块的网络(VGG)</h3>
+<ol>
+<li>VGG块
+<ul>
+<li>由一系列卷积层组成，后面再加上用于空间下采样的最大汇聚层。在最初的 VGG 论文中，作者使用了带有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3\times3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span>卷积核、填充为 1（保持高度和宽度）的卷积层，和带有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn><mo>×</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2\times2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>池化窗口、步幅为 2（每个块后的分辨率减半）的最大汇聚层</li>
+<li>块的使用导致网络定义的非常简洁。使用块可以有效地设计复杂的网络。</li>
+<li>在VGG论文中，Simonyan和Ziserman尝试了各种架构。特别是他们发现深层且窄的卷积（即 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3 \times 3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span>）比较浅层且宽的卷积更有效</li>
+</ul>
+</li>
+<li>VGG网络<img src="https://cisse-away.github.io//post-images/1628391435466.svg" alt="VGG" loading="lazy">
+<ul>
+<li>与 AlexNet、LeNet 一样，VGG 网络可以分为两部分：第一部分主要由卷积层和汇聚层组成，第二部分由全连接层组成</li>
+<li>原始 VGG 网络有 5 个卷积块，其中前两个块各有一个卷积层，后三个块各包含两个卷积层。 第一个模块有 64 个输出通道，每个后续模块将输出通道数量翻倍，直到该数字达到 512。由于该网络使用 8 个卷积层和 3 个全连接层，因此它通常被称为 VGG-11</li>
+</ul>
+</li>
+<li>网络结构实现：<pre><code class="language-python">def vgg_block(num_convs, in_channels, out_channels):
+    layers = []
+    for _ in range(num_convs):
+        layers.append(nn.Conv2d(in_channels, out_channels,
+                                kernel_size=3, padding=1))
+        layers.append(nn.ReLU())
+        in_channels = out_channels
+    layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
+    return nn.Sequential(*layers)
+
+def vgg(conv_arch):
+    conv_blks = []
+    in_channels = 1
+    # 卷积层部分
+    for (num_convs, out_channels) in conv_arch:
+        conv_blks.append(vgg_block(num_convs, in_channels, out_channels))
+        in_channels = out_channels
+
+    return nn.Sequential(
+        *conv_blks, nn.Flatten(),
+        # 全连接层部分
+        nn.Linear(out_channels * 7 * 7, 4096), nn.ReLU(), nn.Dropout(0.5),
+        nn.Linear(4096, 4096), nn.ReLU(), nn.Dropout(0.5),
+        nn.Linear(4096, 10))
+
+net = vgg(conv_arch)
+</code></pre>
+</li>
+</ol>
+<h3 id="网络中的网络nin">网络中的网络(NiN)</h3>
+<ol>
+<li>NiN块
+<ul>
+<li>在每个像素位置应用一个全连接层。 如果我们将权重连接到每个空间位置，我们可以将其视为  1×1  卷积层，或作为在每个像素位置上独立作用的全连接层。 从另一个角度看，即将空间维度中的每个像素视为单个样本，将通道维度视为不同特征</li>
+<li>与VGG块的差异<img src="https://cisse-away.github.io//post-images/1628479073927.svg" alt="nin块" loading="lazy"></li>
+</ul>
+</li>
+<li>NiN模型
+<ul>
+<li>NiN 和 AlexNet 之间的一个显著区别是 NiN 完全取消了全连接层。 相反，NiN 使用一个 NiN块，其输出通道数等于标签类别的数量。最后放一个 全局平均汇聚层，生成一个多元逻辑向量</li>
+<li>NiN 设计的一个优点是，它显著减少了模型所需参数的数量。然而，在实践中，这种设计有时会增加训练模型的时间</li>
+<li>实现：<pre><code class="language-python">def nin_block(in_channels, out_channels, kernel_size, strides, padding):
+    return nn.Sequential(
+        nn.Conv2d(in_channels, out_channels, kernel_size, strides, padding),
+        nn.ReLU(),
+        nn.Conv2d(out_channels, out_channels, kernel_size=1), nn.ReLU(),
+        nn.Conv2d(out_channels, out_channels, kernel_size=1), nn.ReLU())
+net = nn.Sequential(
+    nin_block(1, 96, kernel_size=11, strides=4, padding=0),
+    nn.MaxPool2d(3, stride=2),
+    nin_block(96, 256, kernel_size=5, strides=1, padding=2),
+    nn.MaxPool2d(3, stride=2),
+    nin_block(256, 384, kernel_size=3, strides=1, padding=1),
+    nn.MaxPool2d(3, stride=2),
+    nn.Dropout(0.5),
+    # 标签类别数是10
+    nin_block(384, 10, kernel_size=3, strides=1, padding=1),
+    nn.AdaptiveAvgPool2d((1, 1)),
+    # 将四维的输出转成二维的输出，其形状为(批量大小, 10)
+    nn.Flatten())
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="含并行连结的网络googlenet">含并行连结的网络(GoogLeNet)</h3>
+<ol>
+<li>Inception块
+<ul>
+<li>结构图<img src="https://cisse-away.github.io//post-images/1628479282945.svg" alt="inception" loading="lazy"></li>
+</ul>
+</li>
+<li>GoogLeNet模型
+<ul>
+<li>结构示意：<img src="https://cisse-away.github.io//post-images/1628479420181.svg" alt="googlenet" loading="lazy"></li>
+<li>GoogLeNet 一共使用 9 个Inception块和全局平均汇聚层的堆叠来生成其估计值</li>
+<li>Inception块之间的最大汇聚层可降低维度</li>
+<li>第一个模块类似于 AlexNet 和 LeNet</li>
+<li>Inception块的栈从VGG继承</li>
+<li>全局平均汇聚层避免了在最后使用全连接层</li>
+<li>实现：<pre><code class="language-python">class Inception(nn.Module):
+    # `c1`--`c4` 是每条路径的输出通道数
+    def __init__(self, in_channels, c1, c2, c3, c4, **kwargs):
+        super(Inception, self).__init__(**kwargs)
+        # 线路1，单1 x 1卷积层
+        self.p1_1 = nn.Conv2d(in_channels, c1, kernel_size=1)
+        # 线路2，1 x 1卷积层后接3 x 3卷积层
+        self.p2_1 = nn.Conv2d(in_channels, c2[0], kernel_size=1)
+        self.p2_2 = nn.Conv2d(c2[0], c2[1], kernel_size=3, padding=1)
+        # 线路3，1 x 1卷积层后接5 x 5卷积层
+        self.p3_1 = nn.Conv2d(in_channels, c3[0], kernel_size=1)
+        self.p3_2 = nn.Conv2d(c3[0], c3[1], kernel_size=5, padding=2)
+        # 线路4，3 x 3最大汇聚层后接1 x 1卷积层
+        self.p4_1 = nn.MaxPool2d(kernel_size=3, stride=1, padding=1)
+        self.p4_2 = nn.Conv2d(in_channels, c4, kernel_size=1)
+
+    def forward(self, x):
+        p1 = F.relu(self.p1_1(x))
+        p2 = F.relu(self.p2_2(F.relu(self.p2_1(x))))
+        p3 = F.relu(self.p3_2(F.relu(self.p3_1(x))))
+        p4 = F.relu(self.p4_2(self.p4_1(x)))
+        # 在通道维度上连结输出
+        return torch.cat((p1, p2, p3, p4), dim=1)
+
+b1 = nn.Sequential(nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3),
+           nn.ReLU(),
+           nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
+b2 = nn.Sequential(nn.Conv2d(64, 64, kernel_size=1),
+           nn.ReLU(),
+           nn.Conv2d(64, 192, kernel_size=3, padding=1),
+           nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
+b3 = nn.Sequential(Inception(192, 64, (96, 128), (16, 32), 32),
+           Inception(256, 128, (128, 192), (32, 96), 64),
+           nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
+b4 = nn.Sequential(Inception(480, 192, (96, 208), (16, 48), 64),
+           Inception(512, 160, (112, 224), (24, 64), 64),
+           Inception(512, 128, (128, 256), (24, 64), 64),
+           Inception(512, 112, (144, 288), (32, 64), 64),
+           Inception(528, 256, (160, 320), (32, 128), 128),
+           nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
+b5 = nn.Sequential(Inception(832, 256, (160, 320), (32, 128), 128),
+           Inception(832, 384, (192, 384), (48, 128), 128),
+           nn.AdaptiveAvgPool2d((1,1)),
+           nn.Flatten())
+
+net = nn.Sequential(b1, b2, b3, b4, b5, nn.Linear(1024, 10))
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="批量归一化">批量归一化</h3>
+<ol>
+<li>训练神经网络时的一些挑战
+<ul>
+<li>数据预处理的方式通常会对最终结果产生巨大影响</li>
+<li>对于典型的多层感知机或卷积神经网络。当我们训练时，中间层中的变量可能具有更广的变化范围</li>
+<li>更深层的网络很复杂，容易过拟合</li>
+</ul>
+</li>
+<li>BN原理：
+<ul>
+<li>表达式：<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">N</mi></mrow><mo>(</mo><mi mathvariant="bold">x</mi><mo>)</mo><mo>=</mo><mi mathvariant="bold-italic">γ</mi><mo>⊙</mo><mfrac><mrow><mi mathvariant="bold">x</mi><mo>−</mo><msub><mover accent="true"><mi mathvariant="bold-italic">μ</mi><mo>^</mo></mover><mi mathvariant="script">B</mi></msub></mrow><msub><mover accent="true"><mi mathvariant="bold-italic">σ</mi><mo>^</mo></mover><mi mathvariant="script">B</mi></msub></mfrac><mo>+</mo><mi mathvariant="bold-italic">β</mi><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">\mathrm{BN}(\mathbf{x}) = \boldsymbol{\gamma} \odot \frac{\mathbf{x} - \hat{\boldsymbol{\mu}}_\mathcal{B}}{\hat{\boldsymbol{\sigma}}_\mathcal{B}} + \boldsymbol{\beta}.
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">B</span><span class="mord mathrm">N</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7777700000000001em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.06389em;">γ</span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊙</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:2.22088em;vertical-align:-0.8360000000000001em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3848799999999999em;"><span style="top:-2.3139999999999996em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.70788em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.03704em;">σ</span></span></span></span></span><span style="top:-3.01344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.03041em;">B</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.6769999999999996em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">x</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.70788em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">μ</span></span></span></span></span><span style="top:-3.01344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.23419099999999995em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.03041em;">B</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24414em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.8360000000000001em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.03403em;">β</span></span></span><span class="mord">.</span></span></span></span></span></p>
+</li>
+</ul>
+其中， <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mi mathvariant="bold-italic">μ</mi><mo>^</mo></mover><mi mathvariant="script">B</mi></msub></mrow><annotation encoding="application/x-tex">\hat{\boldsymbol{\mu}}_\mathcal{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.95202em;vertical-align:-0.24414em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.70788em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">μ</span></span></span></span></span><span style="top:-3.01344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.23419099999999995em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.03041em;">B</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24414em;"><span></span></span></span></span></span></span></span></span></span>是样本均值， <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mi mathvariant="bold-italic">σ</mi><mo>^</mo></mover><mi mathvariant="script">B</mi></msub></mrow><annotation encoding="application/x-tex">\hat{\boldsymbol{\sigma}}_\mathcal{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85788em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.70788em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.03704em;">σ</span></span></span></span></span><span style="top:-3.01344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.03041em;">B</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>是小批量<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="script">B</mi></mrow><annotation encoding="application/x-tex">\mathcal{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.03041em;">B</span></span></span></span></span>的样本标准差。通常包含拉伸参数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="bold-italic">γ</mi></mrow><annotation encoding="application/x-tex">\boldsymbol{\gamma}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.63888em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.06389em;">γ</span></span></span></span></span></span>和偏移参数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="bold-italic">β</mi></mrow><annotation encoding="application/x-tex">\boldsymbol{\beta}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.03403em;">β</span></span></span></span></span></span>，它们的形状与<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>相同且是需要与其他模型参数一起学习的参数
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mi mathvariant="bold-italic">μ</mi><mo>^</mo></mover><mi mathvariant="script">B</mi></msub></mrow><annotation encoding="application/x-tex">\hat{\boldsymbol{\mu}}_\mathcal{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.95202em;vertical-align:-0.24414em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.70788em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">μ</span></span></span></span></span><span style="top:-3.01344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.23419099999999995em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.03041em;">B</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24414em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mover accent="true"><mi mathvariant="bold-italic">σ</mi><mo>^</mo></mover><mi mathvariant="script">B</mi></msub></mrow><annotation encoding="application/x-tex">{\hat{\boldsymbol{\sigma}}_\mathcal{B}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85788em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.70788em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.03704em;">σ</span></span></span></span></span><span style="top:-3.01344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.03041em;">B</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>表达式：<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mtable><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><msub><mover accent="true"><mi mathvariant="bold-italic">μ</mi><mo>^</mo></mover><mi mathvariant="script">B</mi></msub></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mfrac><mn>1</mn><mrow><mi mathvariant="normal">∣</mi><mi mathvariant="script">B</mi><mi mathvariant="normal">∣</mi></mrow></mfrac><munder><mo>∑</mo><mrow><mi mathvariant="bold">x</mi><mo>∈</mo><mi mathvariant="script">B</mi></mrow></munder><mi mathvariant="bold">x</mi><mo separator="true">,</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><msubsup><mover accent="true"><mi mathvariant="bold-italic">σ</mi><mo>^</mo></mover><mi mathvariant="script">B</mi><mn>2</mn></msubsup></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mfrac><mn>1</mn><mrow><mi mathvariant="normal">∣</mi><mi mathvariant="script">B</mi><mi mathvariant="normal">∣</mi></mrow></mfrac><munder><mo>∑</mo><mrow><mi mathvariant="bold">x</mi><mo>∈</mo><mi mathvariant="script">B</mi></mrow></munder><mo>(</mo><mi mathvariant="bold">x</mi><mo>−</mo><msub><mover accent="true"><mi mathvariant="bold-italic">μ</mi><mo>^</mo></mover><mi mathvariant="script">B</mi></msub><msup><mo>)</mo><mn>2</mn></msup><mo>+</mo><mi>ϵ</mi><mi mathvariant="normal">.</mi></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} \hat{\boldsymbol{\mu}}_\mathcal{B} &amp;= \frac{1}{|\mathcal{B}|} \sum_{\mathbf{x} \in \mathcal{B}} \mathbf{x}, \\ \hat{\boldsymbol{\sigma}}_\mathcal{B}^2 &amp;= \frac{1}{|\mathcal{B}|} \sum_{\mathbf{x} \in \mathcal{B}} (\mathbf{x} - \hat{\boldsymbol{\mu}}_{\mathcal{B}})^2 + \epsilon.\end{aligned}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:5.886291999999999em;vertical-align:-2.6931459999999996em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.1931459999999996em;"><span style="top:-5.193146em;"><span class="pstrut" style="height:3.32144em;"></span><span class="mord"><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.70788em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">μ</span></span></span></span></span><span style="top:-3.01344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.23419099999999995em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.03041em;">B</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24414em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.2500000000000004em;"><span class="pstrut" style="height:3.32144em;"></span><span class="mord"><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.70788em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.03704em;">σ</span></span></span></span></span><span style="top:-3.01344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9118879999999999em;"><span style="top:-2.4530000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.03041em;">B</span></span></span></span><span style="top:-3.16078em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.6931459999999996em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.1931459999999996em;"><span style="top:-5.193146em;"><span class="pstrut" style="height:3.32144em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">∣</span><span class="mord"><span class="mord mathcal" style="margin-right:0.03041em;">B</span></span><span class="mord">∣</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.050005em;"><span style="top:-1.8556639999999998em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathbf mtight">x</span></span><span class="mrel mtight">∈</span><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.03041em;">B</span></span></span></span></span><span style="top:-3.0500049999999996em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.321706em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathbf">x</span></span><span class="mpunct">,</span></span></span><span style="top:-2.2500000000000004em;"><span class="pstrut" style="height:3.32144em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">∣</span><span class="mord"><span class="mord mathcal" style="margin-right:0.03041em;">B</span></span><span class="mord">∣</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.050005em;"><span style="top:-1.8556639999999998em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathbf mtight">x</span></span><span class="mrel mtight">∈</span><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.03041em;">B</span></span></span></span></span><span style="top:-3.0500049999999996em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.321706em;"><span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.70788em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol">μ</span></span></span></span></span><span style="top:-3.01344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.23419099999999995em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.03041em;">B</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24414em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">ϵ</span><span class="mord">.</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.6931459999999996em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+在方差估计值中添加一个小常量<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>ϵ</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\epsilon &gt; 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">ϵ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span> ，以确保永远不会尝试除以零</li>
+</ul>
+</li>
+<li>批量归一化层
+<ul>
+<li>全连接层：<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="bold">h</mi><mo>=</mo><mi>ϕ</mi><mo>(</mo><mrow><mi mathvariant="normal">B</mi><mi mathvariant="normal">N</mi></mrow><mo>(</mo><mi mathvariant="bold">W</mi><mi mathvariant="bold">x</mi><mo>+</mo><mi mathvariant="bold">b</mi><mo>)</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">\mathbf{h} = \phi(\mathrm{BN}(\mathbf{W}\mathbf{x} + \mathbf{b}) )
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathbf">h</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">ϕ</span><span class="mopen">(</span><span class="mord"><span class="mord mathrm">B</span><span class="mord mathrm">N</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf" style="margin-right:0.01597em;">W</span></span><span class="mord"><span class="mord mathbf">x</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathbf">b</span></span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
+</li>
+<li>卷积层：当卷积有多个输出通道时，需要对这些通道的每个输出执行批量归一化，每个通道都有自己的拉伸和偏移参数</li>
+<li>预测过程中的批量归一化：不再需要样本均值中的噪声以及在微批次上估计每个小批次产生的样本方差；我们可能需要使用我们的模型对逐个样本进行预测。 一种常用的方法是通过移动平均估算整个训练数据集的样本均值和方差，并在预测时使用它们得到确定的输出</li>
+<li>实现：<pre><code class="language-python">class BatchNorm(nn.Module):
+    # `num_features`：完全连接层的输出数量或卷积层的输出通道数。
+    # `num_dims`：2表示完全连接层，4表示卷积层
+    def __init__(self, num_features, num_dims):
+        super().__init__()
+        if num_dims == 2:
+            shape = (1, num_features)
+        else:
+            shape = (1, num_features, 1, 1)
+        # 参与求梯度和迭代的拉伸和偏移参数，分别初始化成1和0
+        self.gamma = nn.Parameter(torch.ones(shape))
+        self.beta = nn.Parameter(torch.zeros(shape))
+        # 非模型参数的变量初始化为0和1
+        self.moving_mean = torch.zeros(shape)
+        self.moving_var = torch.ones(shape)
+
+    def forward(self, X):
+        # 如果 `X` 不在内存上，将 `moving_mean` 和 `moving_var`
+        # 复制到 `X` 所在显存上
+        if self.moving_mean.device != X.device:
+            self.moving_mean = self.moving_mean.to(X.device)
+            self.moving_var = self.moving_var.to(X.device)
+        # 保存更新过的 `moving_mean` 和 `moving_var`
+        Y, self.moving_mean, self.moving_var = batch_norm(
+            X, self.gamma, self.beta, self.moving_mean,
+            self.moving_var, eps=1e-5, momentum=0.9)
+        return Y
+</code></pre>
+</li>
+<li>简明实现：<pre><code class="language-python">net = nn.Sequential(
+    nn.Conv2d(1, 6, kernel_size=5), nn.BatchNorm2d(6), nn.Sigmoid(),
+    nn.MaxPool2d(kernel_size=2, stride=2),
+    nn.Conv2d(6, 16, kernel_size=5), nn.BatchNorm2d(16), nn.Sigmoid(),
+    nn.MaxPool2d(kernel_size=2, stride=2), nn.Flatten(),
+    nn.Linear(256, 120), nn.BatchNorm1d(120), nn.Sigmoid(),
+    nn.Linear(120, 84), nn.BatchNorm1d(84), nn.Sigmoid(),
+    nn.Linear(84, 10))
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="残差网络resnet">残差网络(ResNet)</h3>
+<ol>
+<li>函数类
+<ul>
+<li>对于非嵌套函数类，较复杂的函数类并不总是向“真”函数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>f</mi><mo>∗</mo></msup></mrow><annotation encoding="application/x-tex">f^*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span></span></span></span>靠拢，相反嵌套函数类可以避免上述问题：<img src="https://cisse-away.github.io//post-images/1628507312535.svg" alt="函数类" loading="lazy"></li>
+<li>因此只有当较复杂的函数类包含较小的函数类时，我们才能确保提高它们的性能</li>
+<li>若能将新添加的层训练成恒等映射<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi mathvariant="bold">x</mi><mo>)</mo><mo>=</mo><mi mathvariant="bold">x</mi></mrow><annotation encoding="application/x-tex">f(\mathbf{x}) = \mathbf{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.44444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathbf">x</span></span></span></span></span>， 新模型和原模型将同样有效，同时由于新模型可能得出更优的解来拟合训练数据集，因此添加层似乎更容易降低训练误差</li>
+</ul>
+</li>
+<li>残差块
+<ul>
+<li>正常块与残差块<img src="https://cisse-away.github.io//post-images/1628508238388.svg" alt="残差块" loading="lazy"></li>
+<li>残差映射往往更容易优化</li>
+<li>当理想映射<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi mathvariant="bold">x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(\mathbf{x})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mclose">)</span></span></span></span>极接近与恒等映射时，残差映射也易于捕捉恒等映射的细微波动</li>
+</ul>
+</li>
+<li>ResNet模型
+<ul>
+<li>ResNet-18架构：<img src="https://cisse-away.github.io//post-images/1628509392893.svg" alt="ResNet18" loading="lazy"></li>
+<li>实现：<pre><code class="language-python">class Residual(nn.Module):  #@save
+    def __init__(self, input_channels, num_channels,
+                use_1x1conv=False, strides=1):
+        super().__init__()
+        self.conv1 = nn.Conv2d(input_channels, num_channels,
+                            kernel_size=3, padding=1, stride=strides)
+        self.conv2 = nn.Conv2d(num_channels, num_channels,
+                            kernel_size=3, padding=1)
+        if use_1x1conv:
+            self.conv3 = nn.Conv2d(input_channels, num_channels,
+                                kernel_size=1, stride=strides)
+        else:
+            self.conv3 = None
+        self.bn1 = nn.BatchNorm2d(num_channels)
+        self.bn2 = nn.BatchNorm2d(num_channels)
+        self.relu = nn.ReLU(inplace=True)
+
+    def forward(self, X):
+        Y = F.relu(self.bn1(self.conv1(X)))
+        Y = self.bn2(self.conv2(Y))
+        if self.conv3:
+            X = self.conv3(X)
+        Y += X
+        return F.relu(Y)
+
+b1 = nn.Sequential(nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3),
+           nn.BatchNorm2d(64), nn.ReLU(),
+           nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
+def resnet_block(input_channels, num_channels, num_residuals,
+         first_block=False):
+    blk = []
+    for i in range(num_residuals):
+        if i == 0 and not first_block:
+            blk.append(Residual(input_channels, num_channels,
+                                use_1x1conv=True, strides=2))
+        else:
+            blk.append(Residual(num_channels, num_channels))
+    return blk
+b2 = nn.Sequential(*resnet_block(64, 64, 2, first_block=True))
+b3 = nn.Sequential(*resnet_block(64, 128, 2))
+b4 = nn.Sequential(*resnet_block(128, 256, 2))
+b5 = nn.Sequential(*resnet_block(256, 512, 2))
+
+net = nn.Sequential(b1, b2, b3, b4, b5,
+            nn.AdaptiveAvgPool2d((1,1)),
+            nn.Flatten(), nn.Linear(512, 10))
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="稠密连接网络densenet">稠密连接网络(DenseNet)</h3>
+<ol>
+<li>从ResNet到DenseNet
+<ul>
+<li>ResNet将函数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span>分解为两部分：一个简单的线性项和一个更复杂的非线性项，若想将<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span>拓展成超过两部分的信息就可以用到DenseNet</li>
+<li>ResNet与DenseNet主要区别：<img src="https://cisse-away.github.io//post-images/1628510085950.svg" alt="densenet块" loading="lazy"></li>
+<li>DenseNet输出是连接而不是如ResNet的简单相加，即<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="bold">x</mi><mo>→</mo><mrow><mo fence="true">[</mo><mi mathvariant="bold">x</mi><mo separator="true">,</mo><msub><mi>f</mi><mn>1</mn></msub><mo>(</mo><mi mathvariant="bold">x</mi><mo>)</mo><mo separator="true">,</mo><msub><mi>f</mi><mn>2</mn></msub><mo>(</mo><mo>[</mo><mi mathvariant="bold">x</mi><mo separator="true">,</mo><msub><mi>f</mi><mn>1</mn></msub><mo>(</mo><mi mathvariant="bold">x</mi><mo>)</mo><mo>]</mo><mo>)</mo><mo separator="true">,</mo><msub><mi>f</mi><mn>3</mn></msub><mo>(</mo><mo>[</mo><mi mathvariant="bold">x</mi><mo separator="true">,</mo><msub><mi>f</mi><mn>1</mn></msub><mo>(</mo><mi mathvariant="bold">x</mi><mo>)</mo><mo separator="true">,</mo><msub><mi>f</mi><mn>2</mn></msub><mo>(</mo><mo>[</mo><mi mathvariant="bold">x</mi><mo separator="true">,</mo><msub><mi>f</mi><mn>1</mn></msub><mo>(</mo><mi mathvariant="bold">x</mi><mo>)</mo><mo>]</mo><mo>)</mo><mo>]</mo><mo>)</mo><mo separator="true">,</mo><mo>…</mo><mo fence="true">]</mo></mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">\mathbf{x} \to \left[
+\mathbf{x},
+f_1(\mathbf{x}),
+f_2([\mathbf{x}, f_1(\mathbf{x})]), f_3([\mathbf{x}, f_1(\mathbf{x}), f_2([\mathbf{x}, f_1(\mathbf{x})])]), \ldots\right].</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.44444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathbf">x</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">[</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mopen">[</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mclose">)</span><span class="mclose">]</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mopen">[</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mopen">[</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathbf">x</span></span><span class="mclose">)</span><span class="mclose">]</span><span class="mclose">)</span><span class="mclose">]</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mclose delimcenter" style="top:0em;">]</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">.</span></span></span></span></span></p>
+</li>
+<li>稠密网络主要由两部分构成：稠密块和过渡层</li>
+</ul>
+</li>
+<li>稠密快体
+<ul>
+<li>一个稠密块由多个卷积块组成，每个卷积块使用相同数量的输出信道。 然而，在前向传播中，我们将每个卷积块的输入和输出在通道维上连结</li>
+<li>实现：<pre><code class="language-python">def conv_block(input_channels, num_channels):
+    return nn.Sequential(
+            nn.BatchNorm2d(input_channels), nn.ReLU(),
+            nn.Conv2d(input_channels, num_channels, kernel_size=3, padding=1))
+class DenseBlock(nn.Module):
+    def __init__(self, num_convs, input_channels, num_channels):
+        super(DenseBlock, self).__init__()
+        layer = []
+        for i in range(num_convs):
+            layer.append(conv_block(
+                num_channels * i + input_channels, num_channels))
+        self.net = nn.Sequential(*layer)
+
+    def forward(self, X):
+        for blk in self.net:
+            Y = blk(X)
+            # 连接通道维度上每个块的输入和输出
+            X = torch.cat((X, Y), dim=1)
+        return X
+</code></pre>
+</li>
+</ul>
+</li>
+<li>过度层
+<ul>
+<li>由于每个稠密块都会带来通道数的增加，使用过多则会过于复杂化模型。 而过渡层可以用来控制模型复杂度。 它通过<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>×</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1\times 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>卷积层来减小通道数，并使用步幅为 2 的平均汇聚层减半高和宽，从而进一步降低模型复杂度</li>
+<li>实现：<pre><code class="language-python">def transition_block(input_channels, num_channels):
+    return nn.Sequential(
+            nn.BatchNorm2d(input_channels), nn.ReLU(),
+            nn.Conv2d(input_channels, num_channels, kernel_size=1),
+            nn.AvgPool2d(kernel_size=2, stride=2))
+</code></pre>
+</li>
+</ul>
+</li>
+<li>DenseNet模型
+<ul>
+<li>DenseNet 首先使用同 ResNet 一样的单卷积层和最大汇聚层</li>
+<li>接下来，类似于 ResNet 使用的 4 个残差块，DenseNet 使用的是 4 个稠密块</li>
+<li>在每个模块之间，ResNet 通过步幅为 2 的残差块减小高和宽，DenseNet 则使用过渡层来减半高和宽，并减半通道数</li>
+<li>与 ResNet 类似，最后接上全局汇聚层和全连接层来输出结果</li>
+<li>实现<pre><code class="language-python">b1 = nn.Sequential(
+    nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3),
+    nn.BatchNorm2d(64), nn.ReLU(),
+    nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
+# `num_channels`为当前的通道数
+num_channels, growth_rate = 64, 32
+num_convs_in_dense_blocks = [4, 4, 4, 4]
+blks = []
+for i, num_convs in enumerate(num_convs_in_dense_blocks):
+    blks.append(DenseBlock(num_convs, num_channels, growth_rate))
+    # 上一个稠密块的输出通道数
+    num_channels += num_convs * growth_rate
+    # 在稠密块之间添加一个转换层，使通道数量减半
+    if i != len(num_convs_in_dense_blocks) - 1:
+        blks.append(transition_block(num_channels, num_channels // 2))
+        num_channels = num_channels // 2
+net = nn.Sequential(
+    b1, *blks,
+    nn.BatchNorm2d(num_channels), nn.ReLU(),
+    nn.AdaptiveMaxPool2d((1, 1)),
+    nn.Flatten(),
+    nn.Linear(num_channels, 10))
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/lesslessdong-shou-xue-shen-du-xue-xi-greatergreater-juan-ji-shen-jing-wang-luo/" class="post-title gt-a-link">
+                    《动手学深度学习》——卷积神经网络
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Deeper Depth Prediction with Fully Convolutional Residual Networks | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Deeper Depth Prediction with Fully Convolutional Residual Networks
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-09-27 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/8McWCEH-E/" class="post-tags">
+                            # 论文
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/WP9AiAWcme/" class="post-tags">
+                            # 深度估计
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/hYv6ViS1w/" class="post-tags">
+                            # Deeplearning
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p><a href="https://arxiv.org/pdf/1606.00373.pdf">论文链接</a></p>
+<p>作者：<a href="http://campar.in.tum.de/Main/IroLaina">Iro Laina</a>, <a href="http://campar.in.tum.de/Main/ChristianRupprecht">Christian Rupprecht</a>, <a href="http://www.robots.ox.ac.uk/~vb/">Vasileios Belagiannis</a>, <a href="http://campar.in.tum.de/Main/FedericoTombari">Federico Tombari</a>, <a href="http://campar.in.tum.de/Main/NassirNavab">Nassir Navab</a></p>
+<h2 id="一-摘要">一、摘要</h2>
+<blockquote>
+<p>This paper addresses the problem of estimating the depth map of a scene given a single RGB image. <strong>We propose a fully convolutional architecture, encompassing residual learning, to model the ambiguous mapping between monocular images and depth maps.</strong> In order to improve the output resolution, <strong>we present a novel way to efficiently learn feature map up-sampling within the network.</strong> For optimization, **we introduce the reverse Huber loss that is particularly suited for the task at hand and driven by the value distributions commonly present in depth maps. ** Our model is composed of a single architecture that is trained end-to-end and does not rely on post-processing techniques, such as CRFs or other additional refinement steps. As a result, it runs in real-time on images or videos. In the evaluation, we show that the proposed model contains fewer parameters and requires fewer training data than the current state of the art, while outperforming all approaches on depth estimation. Code and models are publicly available.</p>
+</blockquote>
+<h2 id="二-介绍">二、介绍</h2>
+<ol>
+<li>
+<p>深度信息用途：</p>
+<blockquote>
+<p>Moreover, the availability of reasonably accurate depth information is well-known to improve many computer vision tasks with respect to the RGB-only counterpart, for example in <strong>reconstruction, recognition, sematic segmentation or human pose estimation</strong></p>
+</blockquote>
+</li>
+</ol>
+<h2 id="三-相关工作">三、相关工作</h2>
+<ol>
+<li>
+<p>Liu等人将语义分割任务与深度估计任务相结合，其中使用预测标签作为附加约束，以促进优化任务</p>
+</li>
+<li>
+<p>Konrad等人在检索到的深度图上计算一个中值，然后通过交叉双边滤波进行平滑</p>
+</li>
+<li>
+<p>Liu等人将优化问题表述为具有连续和离散变量势的条件随空场(CRF)</p>
+</li>
+<li>
+<p>Eigen等人首次使用CNN以双尺度架构来对单一图像进行回归稠密深度图</p>
+</li>
+<li>
+<p>Roy和Todorovic等人提出将CNN与回归森林结合，在每个树节点使用非常浅的架构，从而限制了对大数据的需求</p>
+</li>
+<li>
+<p>Liu等人提出在CNN训练中以CRF损失的形式学习一元和成对的潜在特征</p>
+</li>
+<li>
+<p>Li等人和Wang等人使用分级CRF从超像素到像素级来细化他们的CNN预测</p>
+</li>
+</ol>
+<h2 id="四-方法">四、方法</h2>
+<h4 id="cnn结构">CNN结构</h4>
+<ol>
+<li>AlexNet的接受域是151×151像素，VGG-16的接受域是276×276像素，而ResNet-50的接受域达到483×483</li>
+<li>Resnet由于其残差结构可以避免网络退化和梯度消失问题</li>
+<li>移去最后的池化层之后，若继续使用全连接层会产生过多的参数，于是作者提出了一种更少参数的上采样块</li>
+<li>模块首先是一个unpooling层，用于提高特征图空间分辨率，之后接一个5×5的卷积层，通过ReLU激活。不过由于unpooling其后的卷积计算内容会包含很多0，作者通过将5×5卷积核分成4个小卷积核分别计算之后进行聚合，提高效率：<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271035496.png" alt="image-20210927103513425" loading="lazy"></li>
+<li>模块结构如图：<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271033527.png" alt="image-20210927103318008" loading="lazy"></li>
+</ol>
+<h4 id="损失函数">损失函数</h4>
+<p>回归问题的一个标准损失函数是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>损失函数，而作者使用BerHu损失函数，它在<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>∈</mo><mo>[</mo><mi mathvariant="normal">−</mi><mi>c</mi><mo separator="true">,</mo><mi>c</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">x∈[−c,c]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord mathdefault">c</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">c</span><span class="mclose">]</span></span></span></span>时等于<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">L_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>损失，在这个范围之外等于<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>损失。每次梯度下降时都设置<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi><mo>=</mo><mfrac><mn>1</mn><mn>5</mn></mfrac><mi>m</mi><mi>a</mi><msub><mi>x</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">c=\frac{1}{5}max_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">c</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">5</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∣</mo><mover accent="true"><msub><mi>y</mi><mi>i</mi></msub><mo>~</mo></mover><mo>−</mo><msub><mi>y</mi><mi>i</mi></msub><mo>∣</mo></mrow><annotation encoding="application/x-tex">\lvert\tilde{y_i}-y_i\rvert</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">∣</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6678599999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.35em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">~</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">∣</span></span></span></span>)</p>
+<h2 id="五-实验结果">五、实验结果</h2>
+<h4 id="nyu-depth-dataset室内场景">NYU Depth Dataset(室内场景)</h4>
+<ol>
+<li>对比不同CNN变体与作者提出的结构<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271108049.png" alt="image-20210927110803970" loading="lazy"></li>
+<li>与先进技术对比<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271109333.png" alt="image-20210927110921273" loading="lazy"></li>
+<li>本文方法与其他方法预测结果：<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271110793.png" alt="image-20210927111039651" loading="lazy"></li>
+</ol>
+<h4 id="make3d-dataset室外场景">Make3D Dataset(室外场景)</h4>
+<ol>
+<li>与先前其他工作对比：<br>
+<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271310896.png" alt="image-20210927131015806" loading="lazy"></li>
+</ol>
+<h2 id="六-总结">六、总结</h2>
+<ol>
+<li>这篇论文使用基于残差学习的单尺度CNN结构，去除了全连接层减少了参数量，</li>
+<li>提出了更有效率的上采样卷积层，减少经过unpooling后的多数无效卷积操作</li>
+<li>使用BerHu损失函数，动态调整损失函数</li>
+</ol>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/lun-wen-yue-du-depth-map-prediction-from-a-single-image-using-a-multi-scale-deep-network/" class="post-title gt-a-link">
+                    Depth Map Prediction from a Single Image using a Multi-Scale Deep Network
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

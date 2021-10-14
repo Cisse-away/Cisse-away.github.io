@@ -1,0 +1,412 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Linux用户管理 | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Linux用户管理
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-04-25 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/oeI2_1fDN/" class="post-tags">
+                            # Linux
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/ikIb3j07A/" class="post-tags">
+                            # 技术学习
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p><a href="https://www.lanqiao.cn/courses/1">参考课程-蓝桥云课</a></p>
+<h2 id="一-查看用户">一、查看用户</h2>
+<pre><code class="language-shell">who am i
+# 或
+who mom likes
+# 或
+who -m
+</code></pre>
+<pre><code class="language-shell"># 输出
+shiyanlou pts/0        2021-04-25 15:16 (:1.0)
+</code></pre>
+<ul>
+<li>
+<p>第一列表示打开当前伪终端的用户的用户名（要查看当前登录用户的用户名，去掉空格直接使用 <code>whoami</code> 即可）</p>
+</li>
+<li>
+<p>第二列的 <code>pts/0</code> 中 <code>pts</code> 表示伪终端，所谓伪是相对于 <code>/dev/tty</code> 设备而言的，<code>pts/0</code> 后面那个数字就表示打开的伪终端序号</p>
+</li>
+<li>
+<p>第三列则表示当前伪终端的启动时间</p>
+</li>
+</ul>
+<p><code>who</code> 命令其它常用参数</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-a</code></td>
+<td>打印能打印的全部</td>
+</tr>
+<tr>
+<td><code>-d</code></td>
+<td>打印死掉的进程</td>
+</tr>
+<tr>
+<td><code>-m</code></td>
+<td>同<code>am i</code>，<code>mom likes</code></td>
+</tr>
+<tr>
+<td><code>-q</code></td>
+<td>打印当前登录用户数及用户名</td>
+</tr>
+<tr>
+<td><code>-u</code></td>
+<td>打印当前登录用户登录信息</td>
+</tr>
+<tr>
+<td><code>-r</code></td>
+<td>打印运行等级</td>
+</tr>
+</tbody>
+</table>
+<h2 id="二-创建用户">二、创建用户</h2>
+<ol>
+<li>
+<p>su，su- 与 sudo</p>
+<ul>
+<li><code>su &lt;user&gt;</code> 可以切换到用户 user，执行时需要输入目标用户的密码</li>
+<li><code>sudo &lt;cmd&gt;</code> 可以以特权级别运行 cmd 命令，需要当前用户属于 sudo 组，且需要输入当前用户的密码</li>
+<li><code>su - &lt;user&gt;</code> 命令也是切换用户，但是同时用户的环境变量和工作目录也会跟着改变成目标用户所对应的</li>
+</ul>
+</li>
+<li>
+<p>新建用户：</p>
+<pre><code class="language-shell">sudo adduser &lt;username&gt;
+</code></pre>
+<ul>
+<li>首先输入当前用户密码</li>
+<li>其次输入新用户密码</li>
+<li>之后的选项可直接回车使用默认值</li>
+</ul>
+<p>这个命令不但可以添加用户到系统，同时也会默认为新用户在 /home 目录下创建一个工作目录</p>
+<ul>
+<li><code>adduser</code>和<code>useradd</code>的区别：<code>useradd</code>只创建用户，不会创建用户密码和工作目录，创建完了需要使用<code>passwd &lt;username&gt;</code>去设置新用户的密码。<code>adduser</code>在创建用户的同时，会创建工作目录和密码（提示你设置），做这一系列的操作。</li>
+</ul>
+</li>
+<li>
+<p>切换登录用户：</p>
+<pre><code class="language-shell">su -l &lt;username&gt;
+</code></pre>
+</li>
+<li>
+<p>退出当前用户：<br>
+<code>exit</code>或<code>Ctrl+D</code></p>
+</li>
+</ol>
+<h2 id="三-用户组">三、用户组</h2>
+<ol>
+<li>查看用户所在用户组
+<ul>
+<li>使用<code>groups</code>命令</li>
+</ul>
+<pre><code class="language-shell">groups &lt;username&gt;
+# 输出
+&lt;username&gt; : &lt;group_name&gt;
+</code></pre>
+其中冒号之前表示用户，后面表示该用户所属的用户组。每次新建用户若不指定用户组，默认会自动创建一个与用户名相同的用户组<br>
+如果没有指定用户名则默认为当前进程用户
+<ul>
+<li>查看<code>/etc/group</code>文件</li>
+</ul>
+<pre><code class="language-shell">grep shiyanlou /etc/group
+# 输出
+shiyanlou:x:5000:
+</code></pre>
+每条记录格式为<code>group_name:password:GID:user_list</code>，如果用户的 GID 等于用户组的 GID，那么最后一个字段 user_list 就是空的
+<ul>
+<li>通过<code>id</code>命令</li>
+</ul>
+<pre><code class="language-shell">id shiyanlou
+# 输出
+uid=5000(shiyanlou) gid=5000(shiyanlou) 组=5000(shiyanlou)
+</code></pre>
+</li>
+<li>将其它用户加入sudo用户组<pre><code class="language-shell">groups lilei
+ # 输出
+ lilei : lilei
+</code></pre>
+执行 <code>sudo usermod -G sudo lilei</code><pre><code class="language-shell">groups lilei
+# 输出
+lilei : lilei sudo
+</code></pre>
+</li>
+</ol>
+<h2 id="四-删除用户和用户组">四、删除用户和用户组</h2>
+<ol>
+<li>删除用户<pre><code class="language-shell">sudo deluser lilei --remove-home
+</code></pre>
+使用 --remove-home 参数在删除用户时候会一并将该用户的工作目录一并删除</li>
+<li>删除用户组<br>
+删除用户组可以使用 groupdel 命令，倘若该群组中仍包括某些用户，则必须先删除这些用户后，才能删除群组</li>
+</ol>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/inside-the-mind-of-a-master-procrastinator/" class="post-title gt-a-link">
+                    Inside the mind of a master procrastinator
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

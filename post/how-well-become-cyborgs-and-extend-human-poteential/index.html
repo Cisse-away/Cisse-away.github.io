@@ -1,0 +1,341 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>How we&#39;ll become  cyborgs and extend human poteential | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    How we&#39;ll become  cyborgs and extend human poteential
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-05-09 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/F_0XQWMHo/" class="post-tags">
+                            # English Learn
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/WDsCmW81lS/" class="post-tags">
+                            # TED
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>Speaker：Hugh Herr</p>
+<h2 id="视频链接">视频链接</h2>
+<p><a href="https://www.ted.com/talks/hugh_herr_how_we_ll_become_cyborgs_and_extend_human_potential">原视频</a></p>
+<h2 id="摘要">摘要</h2>
+<ul>
+<li>
+<blockquote>
+<p>I'm a bionic man, but I'm not yet a cyborg.<br>
+我是一个仿生人， 但还不是生化人。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>Stated simply, when I think about moving, that command is communicated to the synthetic part of my body. However, those computers can't input information into my nervous system.<br>
+简言之，当我想移动时，这个命令被传达到我身体的合成部分。然而，计算机却无法将信息输入到我的神经系统。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>NeuroEmbodied Design will extend our nervous systems into the synthetic world, and the synthetic world into us, fundamentally changing who we are.<br>
+神经体现设计将我们的神经系统延伸到合成世界中，同时也将合成世界延伸到我们体内，这些都将从根本上改变我们。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>The current amputation paradigm hasn't changed fundamentally since the US Civil War and has grown obsolete in light of dramatic advancements in actuators, control systems and neural interfacing technologies.<br>
+自美国内战以来，截肢规范并没有发生根本性的改变，随着执行器、控制系统和神经接口技术的迅猛发展，原来的截肢规范早已过时。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>We invented the agonist-antagonist myoneural interface, or AMI, for short. The AMI is a method to connect nerves within the residuum to an external, bionic prosthesis.<br>
+我们发明了主动肌和对抗肌肌神经的接口，缩写为AMI。AMI是一种将残肢中的神经连接到外部仿生假肢的方法。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>When a limb is amputated, the surgeon connects these opposing muscles within the residuum to create an AMI. Artificial electrodes are then placed on each AMI muscle, and small computers within the bionic limb decode those signals to control powerful motors on the bionic limb.<br>
+当肢体被截掉以后，外科医生把残肢内这些拮抗肌连接起来，形成AMI。然后，将人造电极放在每块AMI 肌肉上，仿生肢体内的小计算机对这些信号解码，以控制仿生肢上的强力马达。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>Here's Jim descending steps, reaching with his bionic toe to the next stair tread, automatically exhibiting natural motions without him even trying to move his limb.<br>
+这是吉姆走下台阶，正伸出仿生脚趾到下一个台阶，自动地展现自然的动作，甚至不用有意识地试着移动肢体。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>I believe the reach of NeuroEmbodied Design will extend far beyond limb replacement and will carry humanity into realms that fundamentally redefine human potential.<br>
+我相信，神经体现设计的范围将远超替换肢体的范围，它会将人类带入从根本上重新定义人类潜能的领域。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>In this 21st century, designers will extend the nervous system into powerfully strong exoskeletons that humans can control and feel with their minds. Muscles within the body can be reconfigured for the control of powerful motors, and to feel and sense exoskeletal movements, augmenting humans' strength, jumping height and running speed.<br>
+在二十一世纪，设计师们会把神经系统延伸到强大的外骨骼，人类能用思想去控制和感知它们。体内的肌肉可重新配置，以控制强大的马达，并感受和感知外骨骼的动作，进而增强人类力量、跳跃高度和跑步速度。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>In this 21st century, I believe humans will become superheroes. Humans may also extend their bodies into non-anthropomorphic structures, such as wings, controlling and feeling each wing movement within the nervous system.<br>
+在二十一世紀，我相信人类会成为超级英雄。人类也可以延伸自己的身体到拟人化的结构中，如翅膀，在神经系统内控制和感受每一个翅膀动作。</p>
+</blockquote>
+</li>
+</ul>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/adventures-of-an-asteroid-hunter/" class="post-title gt-a-link">
+                    Adventures of an asteroid hunter
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

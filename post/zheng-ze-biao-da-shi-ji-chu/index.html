@@ -1,0 +1,766 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>正则表达式基础 | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    正则表达式基础
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-07-30 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/oeI2_1fDN/" class="post-tags">
+                            # Linux
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/ikIb3j07A/" class="post-tags">
+                            # 技术学习
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p><a href="https://www.lanqiao.cn/courses/1">参考课程-蓝桥云课</a></p>
+<h2 id="基本语法">基本语法</h2>
+<ol>
+<li>选择<br>
+<code>|</code>竖直分隔符表示选择，例如<code>boy|girl</code> 可以匹配<code>boy</code> 或者 <code>girl</code></li>
+<li>数量限定
+<ul>
+<li>若在一个模式中不加数量限定符则表示出现一次且仅出现一次</li>
+<li><code>+</code>表示前面的字符必须出现至少一次(1 次或多次)，例如 <code>goo+gle</code> 可以匹配 <code>gooogle</code>，<code>goooogle</code>等</li>
+<li><code>?</code>表示前面的字符最多出现一次（0 次或 1 次），例如，<code>colou?r</code>，可以匹配 <code>color</code> 或者 <code>colour</code><br>
+-<code>*</code>星号代表前面的字符可以不出现，也可以出现一次或者多次（0 次、或 1 次、或多次），例如，<code>0*42</code>可以匹配 42、042、0042、00042 等</li>
+</ul>
+</li>
+<li>范围和优先级
+<ul>
+<li><code>()</code>圆括号可以用来定义模式字符串的范围和优先级，这可以简单的理解为是否将括号内的模式串作为一个整体</li>
+<li>示例1：<code>gr(a|e)y</code> 等价于 <code>gray|grey</code></li>
+<li>示例2：<code>(grand)?father</code> 匹配<code>father</code> 和 <code>grandfather</code></li>
+</ul>
+</li>
+<li>部分语法
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\</code></td>
+<td><strong>将下一个字符标记为一个特殊字符、或一个原义字符。</strong> 例如 <code>n</code> 匹配字符 <code>n</code>。<code>\n</code> 匹配一个换行符。序列 <code>\\</code> 匹配 <code>\</code> 而 <code>\(</code> 则匹配 <code>(</code>。</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td><strong>匹配输入字符串的开始位置。</strong></td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td><strong>匹配输入字符串的结束位置。</strong></td>
+</tr>
+<tr>
+<td><code>{n}</code></td>
+<td>n 是一个非负整数。<strong>匹配确定的 n 次</strong>。例如 <code>o{2}</code> 不能匹配 <code>Bob</code> 中的 <code>o</code>，但是能匹配 <code>food</code> 中的两个 <code>o</code>。</td>
+</tr>
+<tr>
+<td><code>{n,}</code></td>
+<td>n 是一个非负整数。<strong>至少匹配 n 次</strong>。例如 <code>o{2,}</code> 不能匹配 <code>Bob</code> 中的 <code>o</code>，但能匹配 <code>foooood</code> 中的所有 <code>o</code>。<code>o{1,}</code> 等价于 <code>o+</code>。<code>o{0,}</code> 则等价于 <code>o*</code>。</td>
+</tr>
+<tr>
+<td><code>{n,m}</code></td>
+<td>m 和 n 均为非负整数，其中 <code>n&lt;=m</code>。<strong>最少匹配 n 次且最多匹配 m 次</strong>。例如，<code>o{1,3}</code> 将匹配 <code>fooooood</code> 中的前三个 <code>o</code>。<code>o{0,1}</code> 等价于 <code>o?</code>。请注意在逗号和两个数之间不能有空格。</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td><strong>匹配前面的子表达式零次或多次</strong>。例如，<code>zo*</code> 能匹配 <code>z</code>、<code>zo</code> 以及 <code>zoo</code>。<code>*</code> 等价于 <code>{0,}</code>。</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td><strong>匹配前面的子表达式一次或多次</strong>。例如，<code>zo+</code> 能匹配 <code>zo</code> 以及 <code>zoo</code>，但不能匹配 <code>z</code>。<code>+</code> 等价于 <code>{1,}</code>。</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td><strong>匹配前面的子表达式零次或一次</strong>。例如，<code>do(es)?</code> 可以匹配 <code>do</code> 或 <code>does</code> 中的 <code>do</code>。<code>?</code> 等价于 <code>{0,1}</code>。</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>当该字符紧跟在任何一个其他限制符（<code>*</code>，<code>+</code>，<code>?</code>，<code>{n}</code>，<code>{n,}</code>，<code>{n,m}</code>）后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串 <code>oooo</code>，<code>o+?</code> 将匹配单个 <code>o</code>，而 <code>o+</code> 将匹配所有 <code>o</code>。</td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td><strong>匹配除 <code>\n</code> 之外的任何单个字符</strong>。要匹配包括 <code>\n</code> 在内的任何字符，请使用类似 <code>(.｜\n)</code> 的模式。</td>
+</tr>
+<tr>
+<td><code>(pattern)</code></td>
+<td><strong>匹配 pattern 并获取这一匹配的子字符串</strong>。该子字符串用于向后引用。要匹配圆括号字符，请使用 <code>\(</code> 和 <code>\)</code>。</td>
+</tr>
+<tr>
+<td>x ｜ y</td>
+<td><strong>匹配 x 或 y</strong>。例如，“z ｜ food”能匹配 <code>z</code> 或 <code>food</code>。“(z ｜ f)ood”则匹配 <code>zood</code> 或 <code>food</code>。</td>
+</tr>
+<tr>
+<td><code>[xyz]</code></td>
+<td>字符集合（character class）。<strong>匹配所包含的任意一个字符</strong>。例如，<code>[abc]</code> 可以匹配 <code>plain</code> 中的 <code>a</code>。其中特殊字符仅有反斜线 <code>\</code> 保持特殊含义，用于转义字符。其它特殊字符如星号、加号、各种括号等均作为普通字符。脱字符^如果出现在首位则表示负值字符集合；如果出现在字符串中间就仅作为普通字符。<strong>连字符 <code>-</code> 如果出现在字符串中间表示字符范围描述；如果出现在首位则仅作为普通字符。</strong></td>
+</tr>
+<tr>
+<td><code>[^xyz]</code></td>
+<td>排除型（negate）字符集合。**匹配未列出的任意字符。**例如，<code>[^abc]</code> 可以匹配 <code>plain</code> 中的 <code>plin</code>。</td>
+</tr>
+<tr>
+<td><code>[a-z]</code></td>
+<td>字符范围。**匹配指定范围内的任意字符。**例如，<code>[a-z]</code> 可以匹配 <code>a</code> 到 <code>z</code> 范围内的任意小写字母字符。</td>
+</tr>
+<tr>
+<td><code>[^a-z]</code></td>
+<td>排除型的字符范围。<strong>匹配任何不在指定范围内的任意字符</strong>。例如，<code>[^a-z]</code> 可以匹配任何不在 <code>a</code> 到 <code>z</code> 范围内的任意字符。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>优先级<br>
+优先级从上到下，从左到右依次降低
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\</code></td>
+<td>转义符</td>
+</tr>
+<tr>
+<td><code>()</code>，<code>(?:)</code>，<code>(?=)</code>，<code>[]</code></td>
+<td>括号和中括号</td>
+</tr>
+<tr>
+<td><code>*</code>，<code>+</code>，<code>?</code>，<code>{n}</code>，<code>{n,}</code>，<code>{n,m}</code></td>
+<td>限定符</td>
+</tr>
+<tr>
+<td><code>^</code>，<code>$</code>，<code>\</code> 任何元字符</td>
+<td>定位点和序列</td>
+</tr>
+<tr>
+<td>｜</td>
+<td>选择</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="grep模式匹配命令">grep模式匹配命令</h2>
+<ol>
+<li>基本操作
+<ul>
+<li><code>grep</code>命令用于打印输出文本中匹配的模式串，它使用正则表达式作为模式匹配的条件</li>
+<li>支持单中正则表达式引擎：
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-E</code></td>
+<td>POSIX 扩展正则表达式，ERE</td>
+</tr>
+<tr>
+<td><code>-G</code></td>
+<td>POSIX 基本正则表达式，BRE</td>
+</tr>
+<tr>
+<td><code>-P</code></td>
+<td>Perl 正则表达式，PCRE</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>常用参数
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-b</code></td>
+<td>将二进制文件作为文本来进行匹配</td>
+</tr>
+<tr>
+<td><code>-c</code></td>
+<td>统计以模式匹配的数目</td>
+</tr>
+<tr>
+<td><code>-i</code></td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td><code>-n</code></td>
+<td>显示匹配文本所在行的行号</td>
+</tr>
+<tr>
+<td><code>-v</code></td>
+<td>反选，输出不匹配行的内容</td>
+</tr>
+<tr>
+<td><code>-r</code></td>
+<td>递归匹配查找</td>
+</tr>
+<tr>
+<td><code>-A n</code></td>
+<td>n 为正整数，表示 after 的意思，除了列出匹配行之外，还列出后面的 n 行</td>
+</tr>
+<tr>
+<td><code>-B n</code></td>
+<td>n 为正整数，表示 before 的意思，除了列出匹配行之外，还列出前面的 n 行</td>
+</tr>
+<tr>
+<td><code>--color=auto</code></td>
+<td>将输出中的匹配项设置为自动颜色显示</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>使用正则表达式
+<ul>
+<li>使用基本正则表达式，BRE
+<ul>
+<li>位置<br>
+查找<code>/etc/group</code>文件中以<code>shiyanlou</code>为开头的行<pre><code class="language-bash">grep 'shiyanlou' /etc/group
+grep '^shiyanlou' /etc/group
+</code></pre>
+</li>
+<li>数量<pre><code class="language-bash"># 将匹配以'z'开头以'o'结尾的所有字符串
+echo 'zero\nzo\nzoo' | grep 'z.*o'
+# 将匹配以'z'开头以'o'结尾，中间包含一个任意字符的字符串
+echo 'zero\nzo\nzoo' | grep 'z.o'
+# 将匹配以'z'开头，以任意多个'o'结尾的字符串
+echo 'zero\nzo\nzoo' | grep 'zo*'
+</code></pre>
+</li>
+<li>选择<pre><code class="language-bash"># grep默认是区分大小写的，这里将匹配所有的小写字母
+echo '1234\nabcd' | grep '[a-z]'
+# 将匹配所有的数字
+echo '1234\nabcd' | grep '[0-9]'
+# 将匹配所有的数字
+echo '1234\nabcd' | grep '[[:digit:]]'
+# 将匹配所有的小写字母
+echo '1234\nabcd' | grep '[[:lower:]]'
+# 将匹配所有的大写字母
+echo '1234\nabcd' | grep '[[:upper:]]'
+# 将匹配所有的字母和数字，包括0-9，a-z，A-Z
+echo '1234\nabcd' | grep '[[:alnum:]]'
+# 将匹配所有的字母
+echo '1234\nabcd' | grep '[[:alpha:]]'
+</code></pre>
+</li>
+<li>特殊符号及说明：
+<table>
+<thead>
+<tr>
+<th>特殊符号</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[:alnum:]</code></td>
+<td>代表英文大小写字母及数字，亦即 0-9，A-Z，a-z</td>
+</tr>
+<tr>
+<td><code>[:alpha:]</code></td>
+<td>代表任何英文大小写字母，亦即 A-Z，a-z</td>
+</tr>
+<tr>
+<td><code>[:blank:]</code></td>
+<td>代表空白键与 <code>[Tab]</code> 按键两者</td>
+</tr>
+<tr>
+<td><code>[:cntrl:]</code></td>
+<td>代表键盘上面的控制按键，亦即包括 CR，LF，Tab，Del...</td>
+</tr>
+<tr>
+<td><code>[:digit:]</code></td>
+<td>代表数字而已，亦即 0-9</td>
+</tr>
+<tr>
+<td><code>[:graph:]</code></td>
+<td>除了空白字节（空白键与 [Tab] 按键）外的其他所有按键</td>
+</tr>
+<tr>
+<td><code>[:lower:]</code></td>
+<td>代表小写字母，亦即 a-z</td>
+</tr>
+<tr>
+<td><code>[:print:]</code></td>
+<td>代表任何可以被列印出来的字符</td>
+</tr>
+<tr>
+<td><code>[:punct:]</code></td>
+<td>代表标点符号（punctuation symbol），即：<code>&quot;</code>，<code>'</code>，<code>?</code>，<code>!</code>，<code>;</code>，<code>:</code>，<code>#</code>，<code>$</code>...</td>
+</tr>
+<tr>
+<td><code>[:upper:]</code></td>
+<td>代表大写字母，亦即 A-Z</td>
+</tr>
+<tr>
+<td><code>[:space:]</code></td>
+<td>任何会产生空白的字符，包括空格键，<code>[Tab]</code>，CR 等等</td>
+</tr>
+<tr>
+<td><code>[:xdigit:]</code></td>
+<td>代表 16 进位的数字类型，因此包括： 0-9，A-F，a-f 的数字与字节</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>排除字符<pre><code class="language-bash">echo 'geek\ngood' | grep '[^o]'
+</code></pre>
+<blockquote>
+<p>当 ^ 放到中括号内为排除字符，否则表示行首。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>使用扩展正则表达式，ERE
+<ul>
+<li>要通过<code>grep</code>使用扩展正则表达式需要加上<code>-E</code> 参数，或使用<code>egrep</code></li>
+<li>数量<pre><code class="language-bash"># 只匹配&quot;zo&quot;
+echo 'zero\nzo\nzoo' | grep -E 'zo{1}'
+# 匹配以&quot;zo&quot;开头的所有单词
+echo 'zero\nzo\nzoo' | grep -E 'zo{1,}'
+</code></pre>
+</li>
+<li>选择<pre><code class="language-bash"># 匹配&quot;www.shiyanlou.com&quot;和&quot;www.google.com&quot;
+echo 'www.shiyanlou.com\nwww.baidu.com\nwww.google.com' | grep -E 'www\.(shiyanlou|google)\.com'
+# 或者匹配不包含&quot;baidu&quot;的内容
+echo 'www.shiyanlou.com\nwww.baidu.com\nwww.google.com' | grep -Ev 'www\.baidu\.com'
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="sed流编辑器">sed流编辑器</h2>
+<ol>
+<li>基本格式<pre><code class="language-bash">sed [参数]... [执行命令] [输入文件]...
+# 形如：
+$ sed -i 's/sad/happy/' test # 表示将test文件中的&quot;sad&quot;替换为&quot;happy&quot;
+</code></pre>
+</li>
+<li>常用参数
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-n</code></td>
+<td>安静模式，只打印受影响的行，默认打印输入数据的全部内容</td>
+</tr>
+<tr>
+<td><code>-e</code></td>
+<td>用于在脚本中添加多个执行命令一次执行，在命令行中执行多个命令通常不需要加该参数</td>
+</tr>
+<tr>
+<td><code>-f filename</code></td>
+<td>指定执行 filename 文件中的命令</td>
+</tr>
+<tr>
+<td><code>-r</code></td>
+<td>使用扩展正则表达式，默认为标准正则表达式</td>
+</tr>
+<tr>
+<td><code>-i</code></td>
+<td>将直接修改输入文件内容，而不是打印到标准输出设备</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>sed编辑器的执行命令
+<ul>
+<li>执行命令格式</li>
+</ul>
+<pre><code class="language-bash">[n1][,n2]command
+[n1][~step]command
+</code></pre>
+<ul>
+<li>其中<code>n1,n2</code>表示输入内容的行号，它们之间为<code>,</code>逗号则表示从 n1 到 n2 行，如果为<code>~</code> 波浪号则表示从 n1 开始以 step 为步进的所有行；command 为执行动作</li>
+<li>其中一些命令可以在后面加上作用范围</li>
+</ul>
+<pre><code class="language-bash">sed -i 's/sad/happy/g' test # g 表示全局范围
+sed -i 's/sad/happy/4' test # 4 表示指定行中的第四个匹配字符串
+</code></pre>
+<ul>
+<li>常用动作指令：<br>
+| 命令 | 说明                                 |<br>
+| ---- | ------------------------------------ |<br>
+| <code>s</code>  | 行内替换                             |<br>
+| <code>c</code>  | 整行替换                             |<br>
+| <code>a</code>  | 插入到指定行的后面                   |<br>
+| <code>i</code>  | 插入到指定行的前面                   |<br>
+| <code>p</code>  | 打印指定行，通常与 <code>-n</code> 参数配合使用 |<br>
+| <code>d</code>  | 删除指定行                           |</li>
+</ul>
+</li>
+</ol>
+<h2 id="awk文本处理语言">awk文本处理语言</h2>
+<ol>
+<li>介绍
+<blockquote>
+<p>AWK 是一种优良的文本处理工具，Linux 及 Unix 环境中现有的功能最强大的数据处理引擎之一。</p>
+</blockquote>
+</li>
+<li>基本概念
+<ul>
+<li>awk 所有的操作都是基于 pattern(模式)—action(动作)对来完成</li>
+</ul>
+<pre><code class="language-bash">pattern {action}
+</code></pre>
+在一个完整 awk 操作中，这两者可以只有其中一个，如果没有 pattern 则默认匹配输入的全部文本，如果没有 action 则默认为打印匹配内容到屏幕</li>
+<li>awk命令基本格式<pre><code class="language-bash">awk [-F fs] [-v var=value] [-f prog-file | 'program text'] [file...]
+</code></pre>
+<blockquote>
+<p>其中 <code>-F</code>参数用于预先指定前面提到的字段分隔符（还有其他指定字段的方式），<code>-v</code> 用于预先为 <code>awk</code> 程序指定变量，<code>-f</code>参数用于指定 <code>awk</code> 命令要执行的程序文件，或者在不加 <code>-f</code> 参数的情况下直接将程序语句放在这里，最后为 <code>awk</code> 需要处理的文本输入，且可以同时输入多个文本文件。</p>
+</blockquote>
+</li>
+<li>示例<pre><code class="language-bash">vim test 
+#内容
+#I like linux
+#www.shiyanlou.com
+shiyanlou:~/ $ awk '{   
+quote&gt; if(NR==1){
+quote&gt; print $1 &quot;
+&quot; $2 &quot;
+&quot; $3
+quote&gt; } else {
+quote&gt; print}
+quote&gt; }' test
+I
+like
+linux
+www.shiyanlou.com
+</code></pre>
+</li>
+<li>awk常用的内置变量
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FILENAME</code></td>
+<td>当前输入文件名，若有多个文件，则只表示第一个。如果输入是来自标准输入，则为空字符串</td>
+</tr>
+<tr>
+<td><code>$0</code></td>
+<td>当前记录的内容</td>
+</tr>
+<tr>
+<td><code>$N</code></td>
+<td>N 表示字段号，最大值为<code>NF</code>变量的值</td>
+</tr>
+<tr>
+<td><code>FS</code></td>
+<td>字段分隔符，由正则表达式表示，默认为空格</td>
+</tr>
+<tr>
+<td><code>RS</code></td>
+<td>输入记录分隔符，默认为 <code>\n</code>，即一行为一个记录</td>
+</tr>
+<tr>
+<td><code>NF</code></td>
+<td>当前记录字段数</td>
+</tr>
+<tr>
+<td><code>NR</code></td>
+<td>已经读入的记录数</td>
+</tr>
+<tr>
+<td><code>FNR</code></td>
+<td>当前输入文件的记录数，请注意它与 NR 的区别</td>
+</tr>
+<tr>
+<td><code>OFS</code></td>
+<td>输出字段分隔符，默认为空格</td>
+</tr>
+<tr>
+<td><code>ORS</code></td>
+<td>输出记录分隔符，默认为 <code>\n</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/shu-ju-liu-chong-ding-xiang/" class="post-title gt-a-link">
+                    数据流重定向
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

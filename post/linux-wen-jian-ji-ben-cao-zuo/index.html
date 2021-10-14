@@ -1,0 +1,416 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Linux文件基本操作 | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Linux文件基本操作
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-04-28 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/oeI2_1fDN/" class="post-tags">
+                            # Linux
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/ikIb3j07A/" class="post-tags">
+                            # 技术学习
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p><a href="https://www.lanqiao.cn/courses/1">参考课程-蓝桥云课</a></p>
+<h2 id="一-新建">一、新建</h2>
+<ol>
+<li>新建空白文件<br>
+在当前目录创建一个空白文件:<pre><code class="language-shell">touch &lt;文件名&gt;
+</code></pre>
+<blockquote>
+<p>若当前目录存在一个 test 文件夹，则<code>touch</code>命令，则会更改该同名文件夹的时间戳而不是新建文件</p>
+</blockquote>
+</li>
+<li>新建目录
+<ul>
+<li>在当前目录创建一个空目录:</li>
+</ul>
+<pre><code class="language-shell">mkdir &lt;目录名&gt;
+</code></pre>
+<ul>
+<li>使用<code>-p</code>参数创建多级目录：</li>
+</ul>
+<pre><code class="language-shell">mkdir -p &lt;新建路径&gt;
+</code></pre>
+<blockquote>
+<p>若当前目录已经创建了一个文件，再使用<code>mkdir</code>新建同名的文件夹，系统会报错文件已存在</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="二-复制">二、复制</h2>
+<ol>
+<li>复制文件<br>
+使用<code>cp</code>命令复制一个文件到指定目录：<pre><code class="language-shell">cp &lt;文件名&gt; &lt;目录路径&gt;
+</code></pre>
+</li>
+<li>复制目录<br>
+<code>cp</code>命令无法直接复制一个目录，需要加上<code>-r</code>或<code>-R</code>参数进行递归复制：<pre><code class="language-shell">cp -r &lt;待复制目录名&gt; &lt;目标目录&gt; 
+</code></pre>
+</li>
+</ol>
+<h2 id="三-删除">三、删除</h2>
+<ol>
+<li>删除文件
+<ul>
+<li>使用<code>rm</code>命令删除一个文件：</li>
+</ul>
+<pre><code class="language-shell">rm &lt;文件名&gt;
+</code></pre>
+<ul>
+<li>若文件为只读权限，可使用<code>-f</code>参数强制删除：</li>
+</ul>
+<pre><code class="language-shell"> rm -f &lt;文件名&gt;
+</code></pre>
+</li>
+<li>删除目录
+<ul>
+<li>同复制操作一样，需加上<code>-r</code>或<code>-R</code>参数：</li>
+</ul>
+<pre><code class="language-shell">rm -r &lt;目录名&gt;
+</code></pre>
+<ul>
+<li>若权限不足可加<code>-f</code>参数强制删除：</li>
+</ul>
+<pre><code class="language-shell">rm -rf &lt;目录名&gt;
+</code></pre>
+</li>
+</ol>
+<h2 id="四-移动文件与文件重命名">四、移动文件与文件重命名</h2>
+<ol>
+<li>移动文件<br>
+使用<code>mv</code>命令移动文件：<pre><code class="language-shell">mv &lt;源目录文件&gt;  &lt;目的目录&gt;
+</code></pre>
+</li>
+<li>重命名文件<br>
+使用<code>mv</code>命令重命名文件：<pre><code class="language-shell">mv &lt;旧文件名&gt; &lt;新文件名&gt;
+</code></pre>
+</li>
+<li>批量重命名<br>
+使用<code>rename</code>命令搭配正则表达式：<pre><code class="language-shell">rename '正则表达式' &lt;文件&gt;
+</code></pre>
+</li>
+</ol>
+<h2 id="五-查看文件">五、查看文件</h2>
+<ol>
+<li>使用<code>cat</code>，<code>tac</code>和<code>nl</code>命令查看文件
+<ul>
+<li>前两个命令都是用来打印文件内容到标准输出，其中<code>cat</code>为正序显示，<code>tac</code>为倒序显示：</li>
+</ul>
+<pre><code class="language-shell"> cat &lt;文件&gt;
+  tac &lt;文件&gt;
+</code></pre>
+<ul>
+<li>可以加上<code>-n</code>参数显示行号：</li>
+</ul>
+<pre><code class="language-shell">cat -n &lt;文件&gt;
+</code></pre>
+<ul>
+<li><code>nl</code>命令是比<code>cat -n</code>更专业的行号打印命令。常用参数：</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>-b : 指定添加行号的方式，主要有两种：</p>
+<ul>
+<li>-b a:表示无论是否为空行，同样列出行号(&quot;cat -n&quot;就是这种方式)</li>
+<li>-b t:只列出非空行的编号并列出（默认为这种方式）</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>-n : 设置行号的样式，主要有三种：</p>
+<ul>
+<li>-n ln:在行号字段最左端显示</li>
+<li>-n rn:在行号字段最右边显示，且不加 0</li>
+<li>-n rz:在行号字段最右边显示，且加 0</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>-w : 行号字段占用的位数(默认为 6 位)</p>
+</blockquote>
+<ol start="2">
+<li>使用<code>more</code>和<code>less</code>命令分页查看文件
+<ul>
+<li>使用<code>more</code>命令打开文件：</li>
+</ul>
+<pre><code class="language-shell">more &lt;文件&gt;
+</code></pre>
+打开后默认只显示一屏内容，终端底部显示当前阅读的进度。可以使用<code>Enter</code>键向下滚动一行，使用 <code>Space</code>键向下滚动一屏，按下<code>h</code>显示帮助，<code>q</code>退出。
+<ul>
+<li><code>less</code>命令的使用基本与<code>more</code>一致</li>
+</ul>
+</li>
+<li>使用<code>head</code>和<code>tail</code>命令查看文件<br>
+这两个命令负责只查看文件的头(或尾)几行（默认十行）：<pre><code class="language-shell">tail &lt;文件&gt;
+</code></pre>
+使用<code>-n</code>参数可指定显示的行数：<pre><code class="language-shell">tail -n &lt;行数&gt; &lt;文件&gt;
+</code></pre>
+</li>
+</ol>
+<h2 id="六-查看文件类型">六、查看文件类型</h2>
+<ol>
+<li>使用<code>file</code>命令查看文件的类型：<pre><code class="language-shell">file &lt;文件&gt;
+</code></pre>
+</li>
+</ol>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/how-to-build-your-confidence-and-spark-it-in-others/" class="post-title gt-a-link">
+                    How to build your  confidence — and spark it in others
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

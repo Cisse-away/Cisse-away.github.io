@@ -1,0 +1,861 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Python学习笔记 | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Python学习笔记
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-07-13 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/QAlwPk42Z/" class="post-tags">
+                            # Python
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/ikIb3j07A/" class="post-tags">
+                            # 技术学习
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h1 id="课程链接">课程链接</h1>
+<blockquote>
+<p><a href="https://www.liaoxuefeng.com/wiki/1016959663602400">Python教程</a></p>
+</blockquote>
+<h1 id="python基础">Python基础</h1>
+<ol>
+<li>整数
+<ul>
+<li>对于很大的数，例如<code>10000000000</code>，很难数清楚0的个数。Python允许在数字中间以<code>_</code>分隔，即<code>10_000_000_000</code>和<code>10000000000</code>是一样的</li>
+</ul>
+</li>
+<li>浮点数
+<ul>
+<li>对于很大或很小的浮点数，就必须用科学计数法表示，把10用e替代，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1.23</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>9</mn></msup></mrow><annotation encoding="application/x-tex">1.23×10^9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">2</span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span>就是<code>1.23e9</code>，或者<code>12.3e8</code>，0.000012可以写成<code>1.2e-5</code></li>
+</ul>
+</li>
+<li>字符串
+<ul>
+<li>若字符串内部既包含<code>'</code>又包含<code>&quot;</code>则可以用转义字符<code>\</code>来标识，如<code>I'm &quot;OK&quot;!</code>可以写成：<pre><code class="language-python">'I\'m \&quot;OK\&quot;!'
+</code></pre>
+</li>
+<li>若字符串里面有很多字符都需要转义，为了简化，Python还允许用<code>r''</code>表示<code>''</code>内部的字符串默认不转义:<pre><code class="language-python">&gt;&gt;&gt; print('\\\t\\')
+\       \
+&gt;&gt;&gt; print(r'\\\t\\')
+\\\t\\
+</code></pre>
+</li>
+</ul>
+</li>
+<li>Python中的两种除法
+<ul>
+<li><code>/</code>除法计算结果是浮点数，即使两个整数整除</li>
+<li><code>//</code>除法只取结果的整数部分</li>
+</ul>
+</li>
+<li>字符编码
+<ul>
+<li>Python提供了<code>ord()</code>函数获取字符的整数表示，<code>chr()</code>函数把编码转换为对应的字符：<pre><code class="language-python">&gt;&gt;&gt; ord('A')
+65
+&gt;&gt;&gt; chr(66)
+'B'
+</code></pre>
+</li>
+<li>以Unicode表示的<code>str</code>通过<code>encode()</code>方法可以编码为指定的<code>bytes</code>:<pre><code class="language-python">&gt;&gt;&gt; 'ABC'.encode('ascii')
+b'ABC'
+&gt;&gt;&gt; '中文'.encode('utf-8')
+b'\xe4\xb8\xad\xe6\x96\x87'
+</code></pre>
+</li>
+<li>相反，从网络或磁盘上读取了的字节流数据就是<code>bytes</code>。要把<code>bytes</code>变为<code>str</code>，就需要用<code>decode()</code>方法:<pre><code class="language-python">&gt;&gt;&gt; b'ABC'.decode('ascii')
+'ABC'
+&gt;&gt;&gt; b'\xe4\xb8\xad\xe6\x96\x87'.decode('utf-8')
+'中文'
+</code></pre>
+</li>
+<li>Python源代码文件头：<pre><code class="language-python">#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+</code></pre>
+</li>
+</ul>
+第一行注释是为了告诉Linux/OS X系统，这是一个Python可执行程序，Windows系统会忽略这个注释；第二行注释是为了告诉Python解释器，按照UTF-8编码读取源代码</li>
+<li>格式化
+<ul>
+<li>使用<code>%</code> ：<pre><code class="language-python">&gt;&gt;&gt; 'Hello, %s' % 'world'
+'Hello, world'
+&gt;&gt;&gt; 'Hi, %s, you have $%d.' % ('Michael', 1000000)
+'Hi, Michael, you have $1000000.'
+</code></pre>
+</li>
+<li>使用<code>format()</code>函数 ：<pre><code class="language-python">&gt;&gt;&gt; 'Hello, {0}, 成绩提升了 {1:.1f}%'.format('小明', 17.125)
+'Hello, 小明, 成绩提升了 17.1%'
+</code></pre>
+</li>
+<li>使用<code>f-string</code> :<pre><code class="language-python">&gt;&gt;&gt; r = 2.5
+&gt;&gt;&gt; s = 3.14 * r ** 2
+&gt;&gt;&gt; print(f'The area of a circle with radius {r} is {s:.2f}')
+The area of a circle with radius 2.5 is 19.62
+</code></pre>
+</li>
+</ul>
+</li>
+<li>有序列表<code>list</code>与<code>tuple</code>
+<ul>
+<li>list可以随时添加，删除和更改元素；tuple一经初始化就不能修改<pre><code class="language-python">&gt;&gt;&gt; classmates = ['Michael', 'Bob', 'Tracy'] # list
+&gt;&gt;&gt; classmates = ('Michael', 'Bob', 'Tracy') # tuple
+</code></pre>
+</li>
+</ul>
+</li>
+<li><code>range()</code>函数
+<ul>
+<li>生成一个整数序列，再通过list()函数转换为list<pre><code class="language-python">&gt;&gt;&gt; list(range(5))
+[0, 1, 2, 3, 4]
+</code></pre>
+</li>
+</ul>
+</li>
+<li><code>dict</code>字典类型
+<ul>
+<li>使用键-值(key-value)存储<pre><code class="language-python">&gt;&gt;&gt; d = {'Michael': 95, 'Bob': 75, 'Tracy': 85}
+&gt;&gt;&gt; d['Michael']
+95
+</code></pre>
+</li>
+</ul>
+</li>
+<li><code>set</code>集合类型
+<ul>
+<li><code>set</code>也是一组key的集合，但不存储value，且key不能重复：<pre><code class="language-python">&gt;&gt;&gt; s = set([1, 1, 2, 2, 3, 3])
+&gt;&gt;&gt; s
+{1, 2, 3}
+</code></pre>
+</li>
+<li><code>set</code>可进行交集、并集等操作：<pre><code class="language-python">&gt;&gt;&gt; s1 = set([1, 2, 3])
+&gt;&gt;&gt; s2 = set([2, 3, 4])
+&gt;&gt;&gt; s1 &amp; s2
+{2, 3}
+&gt;&gt;&gt; s1 | s2
+{1, 2, 3, 4}
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="函数">函数</h1>
+<ol>
+<li>空函数
+<ul>
+<li><code>pass</code>语句什么都不做，可用来作为占位符让程序先跑起来</li>
+</ul>
+</li>
+<li>参数检查
+<ul>
+<li>数据类型检查可以使用内置函数<code>isinstance()</code>实现：<pre><code class="language-python">def my_abs(x):
+    if not isinstance(x, (int, float)):
+        raise TypeError('bad operand type')
+    if x &gt;= 0:
+        return x
+    else:
+        return -x
+</code></pre>
+</li>
+</ul>
+</li>
+<li>默认参数
+<ul>
+<li>设置默认参数时，必选参数在前，默认参数在后</li>
+<li>有多个默认参数时，调用时既可以按顺序提供默认参数，又可以不按顺序提供部分默认参数。当不安顺序提供部分默认参数时，需要把参数名写上</li>
+</ul>
+</li>
+<li>可变参数
+<ul>
+<li>对于参数个数不确定的函数可将参数变为可变参数：<pre><code class="language-python">def calc(*numbers):
+sum = 0
+for n in numbers:
+    sum = sum + n * n
+return sum
+
+&gt;&gt;&gt; calc(1, 2)
+5
+&gt;&gt;&gt; calc()
+0
+&gt;&gt;&gt; nums = [1, 2, 3]
+&gt;&gt;&gt; calc(*nums)
+14
+</code></pre>
+</li>
+</ul>
+</li>
+<li>关键字参数
+<ul>
+<li>关键字参数允许传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个dict：<pre><code class="language-python">def person(name, age, **kw):
+    print('name:', name, 'age:', age, 'other:', kw)
+
+&gt;&gt;&gt; person('Bob', 35, city='Beijing')
+name: Bob age: 35 other: {'city': 'Beijing'}
+&gt;&gt;&gt; person('Adam', 45, gender='M', job='Engineer')
+name: Adam age: 45 other: {'gender': 'M', 'job': 'Engineer'}
+&gt;&gt;&gt; extra = {'city': 'Beijing', 'job': 'Engineer'}
+&gt;&gt;&gt; person('Jack', 24, **extra)
+name: Jack age: 24 other: {'city': 'Beijing', 'job': 'Engineer'}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>参数定义的顺序必须是：必选参数、默认参数、可变参数、命名关键字参数和关键字参数</li>
+</ol>
+<h1 id="高级特性">高级特性</h1>
+<ol>
+<li>切片<pre><code class="language-python">&gt;&gt;&gt; L = ['Michael', 'Sarah', 'Tracy', 'Bob', 'Jack']
+&gt;&gt;&gt; L[0:3]
+['Michael', 'Sarah', 'Tracy']
+&gt;&gt;&gt; L[:3]
+['Michael', 'Sarah', 'Tracy']
+&gt;&gt;&gt; L[1:3]
+['Sarah', 'Tracy']
+&gt;&gt;&gt; L[-2:]
+['Bob', 'Jack']
+&gt;&gt;&gt; L[-2:-1]
+['Bob']
+</code></pre>
+<pre><code class="language-python">&gt;&gt;&gt; L = list(range(100))
+&gt;&gt;&gt; L[:10:2]
+[0, 2, 4, 6, 8]
+&gt;&gt;&gt; L[::5]
+[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95]
+</code></pre>
+</li>
+<li>迭代
+<ul>
+<li><code>dict</code>迭代：<pre><code class="language-python">&gt;&gt;&gt; d = {'a': 1, 'b': 2, 'c': 3}
+&gt;&gt;&gt; for key in d:
+...
+&gt;&gt;&gt; for value in d.values():
+...
+&gt;&gt;&gt; for k, v in d.items():
+...
+</code></pre>
+</li>
+<li>对<code>list</code>实现下标循环：<pre><code class="language-python">&gt;&gt;&gt; for i, value in enumerate(['A', 'B', 'C']):
+...     
+</code></pre>
+</li>
+</ul>
+</li>
+<li>列表生成式
+<ul>
+<li>生成list<pre><code class="language-python">&gt;&gt;&gt; list(range(1, 11))
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+</code></pre>
+</li>
+<li>根据特定规则生成list<pre><code class="language-python">&gt;&gt;&gt; [x * x for x in range(1, 11) if x % 2 == 0]
+[4, 16, 36, 64, 100]
+</code></pre>
+</li>
+<li>双层循环：<pre><code class="language-python">&gt;&gt;&gt; [m + n for m in 'ABC' for n in 'XYZ']
+['AX', 'AY', 'AZ', 'BX', 'BY', 'BZ', 'CX', 'CY', 'CZ']
+</code></pre>
+</li>
+<li>调用函数：<pre><code class="language-python">&gt;&gt;&gt; L = ['Hello', 'World', 'IBM', 'Apple']
+&gt;&gt;&gt; [s.lower() for s in L]
+['hello', 'world', 'ibm', 'apple']
+</code></pre>
+</li>
+<li>if...else：<br>
+在一个列表生成式中，<code>for</code>前面的<code>if ... else</code>是表达式，而<code>for</code>后面的<code>if</code>是过滤条件，不能带<code>else</code><pre><code class="language-python">&gt;&gt;&gt; [x if x % 2 == 0 else -x for x in range(1, 11)]
+[-1, 2, -3, 4, -5, 6, -7, 8, -9, 10]
+</code></pre>
+</li>
+</ul>
+</li>
+<li>生成器<br>
+若列表元素可以按照某种算法推算出来，可在循环的过程中不断推算出后续的元素，这样就不必创建完整的list，从而节省大量的空间
+<ul>
+<li>创建<code>generator</code><pre><code class="language-python">&gt;&gt;&gt; g = (x * x for x in range(10))
+&gt;&gt;&gt; g
+&lt;generator object &lt;genexpr&gt; at 0x1022ef630&gt;
+&gt;&gt;&gt; next(g)
+0
+&gt;&gt;&gt; next(g)
+1
+...
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>通过循环遍历生成器<br>
+<code>python &gt;&gt;&gt; g = (x * x for x in range(10)) &gt;&gt;&gt; for n in g: ... print(n) ...</code></li>
+<li>函数式创建<code>generator</code><pre><code class="language-python">def fib(max):
+    n, a, b = 0, 0, 1
+    while n &lt; max:
+        yield b
+        a, b = b, a + b
+        n = n + 1
+    return 'done'
+&gt;&gt;&gt; f = fib(6)
+&gt;&gt;&gt; f
+&lt;generator object fib at 0x104feaaa0&gt;
+</code></pre>
+变成generator的函数，在每次调用<code>next()</code>的时候执行，遇到<code>yield</code>语句返回，再次执行时从上次返回的<code>yield</code>语句处继续执行</li>
+</ul>
+<h1 id="函数式编程">函数式编程</h1>
+<ol>
+<li>高阶函数
+<ul>
+<li>变量可以指向函数，即函数本身可以赋值给变量</li>
+<li>接受另一个函数作为参数的函数称为高阶函数<pre><code class="language-Python">def add(x, y, f):
+    return f(x) + f(y)
+</code></pre>
+</li>
+<li><code>map()</code>函数和<code>reduce()</code>函数
+<ul>
+<li><code>map()</code>函数接受两个参数，一个是函数，另一个是<code>Iterable</code>, <code>map</code>将传入的函数依次作用到序列的每个元素，并把结果作为新的<code>Iterator</code>返回：<pre><code class="language-python">&gt;&gt;&gt; def f(x):
+...     return x * x
+...
+&gt;&gt;&gt; r = map(f, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+&gt;&gt;&gt; list(r)
+[1, 4, 9, 16, 25, 36, 49, 64, 81]
+</code></pre>
+</li>
+<li><code>reduce()</code>函数把一个函数作用在一个序列上，且这个函数必须接收两个参数，<code>reduce</code>把结果继续和序列的下一个元素做累积计算，效果为：<pre><code class="language-python">reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)
+</code></pre>
+</li>
+</ul>
+</li>
+<li><code>filter()</code>函数<br>
+<code>filter()</code>函数用于过滤序列，接收一个函数和一个序列，并将传入的函数依次作用于每个元素，然后根据返回值是<code>True</code>还是<code>False</code>决定保留还是丢弃该元素，例如：<pre><code class="language-python">def is_odd(n):
+    return n % 2 == 1
+
+list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
+# 结果: [1, 5, 9, 15]
+</code></pre>
+</li>
+<li><code>sorted()</code>函数
+<ul>
+<li>直接对<code>list</code>进行排序：<pre><code class="language-python">&gt;&gt;&gt; sorted([36, 5, -12, 9, -21])
+[-21, -12, 5, 9, 36]
+</code></pre>
+</li>
+<li>通过<code>key</code>函数实现自定义排序：<pre><code class="language-python">&gt;&gt;&gt; sorted([36, 5, -12, 9, -21], key=abs)
+[5, 9, -12, -21, 36]
+</code></pre>
+</li>
+<li>若要反向排序，可传入第三个参数<code>reverse=True</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>匿名函数
+<ul>
+<li>关键字<code>lambda</code>表示匿名函数，冒号前面的<code>x</code>表示函数参数</li>
+<li>只能有一个表达式，返回值即为表达式的结果</li>
+<li>匿名函数也是一个函数对象，可赋值给一个变量，再利用变量来调用该函数</li>
+</ul>
+</li>
+<li>装饰器
+<ul>
+<li>在代码运行期间动态增加功能的方式称为&quot;装饰器&quot;(Decorator)</li>
+<li>示例：<pre><code class="language-python"># 定义decorator
+def log(func):
+    def wrapper(*args, **kw):
+        print('call %s():' % func.__name__)
+        return func(*args, **kw)
+    return wrapper
+# 通过@，将decorator置于函数定义处
+@log # 相当于执行了now = log(now)
+def now():
+    print('2015-3-25')
+
+&gt;&gt;&gt; now()
+call now():
+2015-3-25
+</code></pre>
+</li>
+</ul>
+</li>
+<li>偏函数
+<ul>
+<li>根据需要将一个函数的某些参数固定(即设置默认值)，返回新的函数</li>
+<li>示例：<pre><code class="language-python">&gt;&gt;&gt; import functools
+&gt;&gt;&gt; int2 = functools.partial(int, base=2)
+&gt;&gt;&gt; int2('1000000')
+64
+# int2()函数base默认值为10
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="模块">模块</h1>
+<ol>
+<li>使用模块
+<ul>
+<li>Python模块的标准文件模板<pre><code class="language-python">#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+' a test module ' # 表示模块的文档注释，任何模块代码的第一个字符串都被视为模块的文档注释
+
+__author__ = 'Michael Liao'
+...
+</code></pre>
+</li>
+<li>有关<code>if __name__=='__main__:</code><br>
+当我们在命令行运行模块文件时，Python解释器把一个特殊变量<code>__name__</code>置为<code>__main__</code>，而如果在其他地方导入该模块时，<code>if</code>判断将失败</li>
+<li>作用域
+<ul>
+<li>正常的函数和变量名是公开的（public），可以被直接引用</li>
+<li>类似<code>__xxx__</code>这样的变量是特殊变量，可以被直接引用，但是有特殊用途</li>
+<li>类似<code>_xxx</code>和<code>__xxx</code>这样的函数或变量就是非公开的（private），不应该被直接引用</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="面向对象编程">面向对象编程</h1>
+<ol>
+<li>类和实例
+<ul>
+<li>通过<code>class</code>关键字定义类<pre><code class="language-python">class Student(object): # object表示该类从object类继承而来，默认为object，支持多继承
+    pass
+&gt;&gt;&gt; bart = Student()
+&gt;&gt;&gt; bart.name = 'Bart Simpson' # 可自由地给一个实例绑定属性
+&gt;&gt;&gt; bart.name
+'Bart Simpson'
+</code></pre>
+</li>
+<li>&quot;构造函数&quot;<pre><code class="language-python">class Student(object):
+
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+# 这样再创建实例时就不能传入空的参数
+</code></pre>
+</li>
+</ul>
+</li>
+<li>访问限制
+<ul>
+<li>为防止外部代码自由修改内部属性，可把属性改为私有变量：<pre><code class="language-python">class Student(object):
+
+    def __init__(self, name, score):
+        self.__name = name
+        self.__score = score
+
+    def print_score(self):
+        print('%s: %s' % (self.__name, self.__score))
+</code></pre>
+</li>
+</ul>
+</li>
+<li>继承和多态
+<ul>
+<li>当子类和父类都存在相同的方法时，子类的方法覆盖了父类的方法</li>
+<li>静态语言 vs 动态语言
+<ul>
+<li>对于静态语言（例如Java）来说，如果需要传入<code>Animal</code>类型，则传入的对象必须是<code>Animal</code>类型或者它的子类，否则，将无法调用其中的<code>run()</code>方法</li>
+<li>对于Python这样的动态语言来说，则不一定需要传入<code>Animal</code>类型。我们只需要保证传入的对象有一个<code>run()</code>方法就可以了</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>获取对象信息
+<ul>
+<li><code>type()</code>函数<br>
+判断对象类型</li>
+<li><code>isinstance()</code>函数<br>
+判断一个对象是否是该类型本身或位于该类型的父继承链上</li>
+<li><code>dir()</code>函数<br>
+获取一个对象的所有属性和方法，返回一个list</li>
+</ul>
+</li>
+<li>实例属性和类属性
+<ul>
+<li>相同的实例属性将屏蔽掉类属性</li>
+</ul>
+</li>
+</ol>
+<h1 id="面向对象高级编程">面向对象高级编程</h1>
+<ol>
+<li>使用<code>__slots__</code>
+<ul>
+<li>给实例绑定方法：<pre><code class="language-python">&gt;&gt;&gt; def set_age(self, age): # 定义一个函数作为实例方法
+...     self.age = age
+...
+&gt;&gt;&gt; from types import MethodType
+&gt;&gt;&gt; s.set_age = MethodType(set_age, s) # 给实例绑定一个方法
+</code></pre>
+</li>
+<li>给类绑定方法：<pre><code class="language-python">&gt;&gt;&gt; def set_score(self, score):
+...     self.score = score
+...
+&gt;&gt;&gt; Student.set_score = set_score
+</code></pre>
+</li>
+<li>限制实例的属性：<pre><code class="language-python">class Student(object):
+    __slots__ = ('name', 'age') # 用tuple定义允许绑定的属性名称
+# 此时只能对创建的实例绑定name, age属性，绑定其他属性将报错
+</code></pre>
+注意：<code>__slots__</code>定义的属性仅对当前类实例起作用，对继承的子类不起作用</li>
+</ul>
+</li>
+<li>使用<code>@property</code>
+<ul>
+<li>Python内置的<code>@property</code>装饰器就是负责把一个方法变成属性调用的<pre><code class="language-python">class Student(object):
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, value):
+        if not isinstance(value, int):
+            raise ValueError('score must be an integer!')
+        if value &lt; 0 or value &gt; 100:
+            raise ValueError('score must between 0 ~ 100!')
+        self._score = value
+
+&gt;&gt;&gt; s = Student()
+&gt;&gt;&gt; s.score = 60 # OK，实际转化为s.set_score(60)
+&gt;&gt;&gt; s.score # OK，实际转化为s.get_score()
+60
+</code></pre>
+把一个getter方法变成属性，只需要加上<code>@property</code>就可以了，此时，<code>@property</code>本身又创建了另一个装饰器<code>@score.setter</code>，负责把一个setter方法变成属性赋值</li>
+</ul>
+</li>
+<li>使用枚举类<pre><code class="language-python">from enum import Enum
+
+ Month = Enum('Month', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
+
+ for name, member in Month.__members__.items():
+ print(name, '=&gt;', member, ',', member.value)  # valule属性默认从1开始计数
+</code></pre>
+</li>
+<li>使用元类
+<ul>
+<li>利用<code>type()</code>动态创建类
+<ul>
+<li><code>type()</code>函数既可以返回一个对象的类型，又可以创建出新的类型，比如，我们可以通过<code>type()</code>函数创建出<code>Hello</code>类，而无需通过<code>class Hello(object)...</code>的定义：<pre><code class="language-python">&gt;&gt;&gt; def fn(self, name='world'): # 先定义函数
+...     print('Hello, %s.' % name)
+...
+&gt;&gt;&gt; Hello = type('Hello', (object,), dict(hello=fn)) # 创建Hello class
+&gt;&gt;&gt; h = Hello()
+&gt;&gt;&gt; h.hello()
+Hello, world.
+</code></pre>
+</li>
+<li>要创建一个class对象，type()函数依次传入3个参数：
+<ul>
+<li>class的名称</li>
+<li>继承的父类集合，如果只有一个父类，注意tuple的单元素写法</li>
+<li>class的方法名称与函数绑定</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="io编程">IO编程</h1>
+<ol>
+<li>文件读写
+<ul>
+<li>读文件<pre><code class="language-python">with open('/path/to/file', 'r') as f:
+    print(f.read())
+
+# 常用函数
+read() # 一次性读取文件的全部内容
+read(size) # 每次最多读取size个字节的内容
+readline() # 每次最多读取size个字节的内容
+readlines() # 一次读取所有内容并按行返回list
+</code></pre>
+</li>
+<li>写文件<pre><code class="language-python">with open('/Users/michael/test.txt', 'w') as f:
+    f.write('Hello, world!')
+</code></pre>
+</li>
+</ul>
+</li>
+<li>操作文件和目录
+<ul>
+<li>创建一个目录：<code>os.mkdir('filepath')</code></li>
+<li>删除一个目录：<code>os.rmdir('filepath')</code></li>
+<li>合并两个路径：<code>os.path.join('path1', 'path2')</code></li>
+<li>拆分路径（后一部分为最后级别的目录或文件名）：<code>os.path.split()</code></li>
+</ul>
+</li>
+</ol>
+<h1 id="正则表达式">正则表达式</h1>
+<ol>
+<li>直接给出字符就是精确匹配，<code>\d</code>可以匹配一个数字，<code>\w</code>可以匹配一个字母或数字，<code>\s</code>可以匹配一个空格或Tab等空白符</li>
+<li><code>.</code>可以匹配任意字符</li>
+<li><code>*</code>表示任意个字符，<code>+</code>表示至少一个字符，<code>？</code>表示0个或1个字符，<code>{n}</code>表示n个字符，<code>{n, m}</code>表示n-m个字符</li>
+<li>特殊字符需要用<code>\</code>转义</li>
+<li>精确匹配
+<ul>
+<li><code>[0-9a-zA-Z\_]</code>可以匹配一个数字、字母或者下划线</li>
+<li><code>[0-9a-zA-Z\_]+</code>可以匹配至少由一个数字、字母或者下划线组成的字符串</li>
+<li><code>[a-zA-Z\_][0-9a-zA-Z\_]*</code>可以匹配由字母或下划线开头，后接任意个由一个数字、字母或者下划线组成的字符串</li>
+<li><code>[a-zA-Z\_][0-9a-zA-Z\_]{0, 19}</code>更精确地限制了变量的长度是1-20个字符（前面1个字符+后面最多19个字符）</li>
+<li><code>A|B</code>可以匹配A或B</li>
+<li><code>^</code>表示行的开头，<code>^\d</code>表示必须以数字开头</li>
+<li><code>$</code>表示行的结束，<code>\d$</code>表示必须以数字结束</li>
+</ul>
+</li>
+</ol>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/how-we-could-teach-our-bodies-to-heal-faster/" class="post-title gt-a-link">
+                    How we could teach our bodies to heal faster
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

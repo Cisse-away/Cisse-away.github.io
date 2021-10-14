@@ -1,0 +1,357 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Sparse-to-Dense: Depth Prediction from Sparse Depth Samples and a Single Image | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Sparse-to-Dense: Depth Prediction from Sparse Depth Samples and a Single Image
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-09-30 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/8McWCEH-E/" class="post-tags">
+                            # 论文
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/WP9AiAWcme/" class="post-tags">
+                            # 深度估计
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/hYv6ViS1w/" class="post-tags">
+                            # Deeplearning
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p><a href="https://arxiv.org/pdf/1709.07492.pdf">论文链接</a></p>
+<p>作者:<a href="https://dblp.uni-trier.de/pid/143/0493.html">Fangchang Ma</a>, <a href="https://dblp.uni-trier.de/pid/45/1718.html">Sertac Karaman</a></p>
+<h2 id="一-摘要">一、摘要</h2>
+<blockquote>
+<p>We consider the problem of <strong>dense depth prediction from a sparse set of depth measurements and a single RGB image</strong>. Since depth estimation from monocular images alone is inherently ambiguous and unreliable, to attain a higher level of robustness and accuracy, we introduce additional sparse depth samples, which are either acquired with a low-resolution depth sensor or computed via visual Simultaneous Localization and Mapping (SLAM) algorithms. <strong>We propose the use of a single deep regression network to learn directly from the RGB-D raw data, and explore the impact of number of depth samples on prediction accuracy</strong>. Our experiments show that, compared to using only RGB images, the addition of 100 spatially random depth samples reduces the prediction root-mean-square error by 50% on the NYU-Depth-v2 indoor dataset. It also boosts the percentage of reliable prediction from 59% to 92% on the KITTI dataset. We demonstrate two applications of the proposed algorithm: a plug-in module in SLAM to convert sparse maps to dense maps, and super-resolution for LiDARs. Software and video demonstration are publicly available.</p>
+</blockquote>
+<h2 id="二-介绍">二、介绍</h2>
+<ol>
+<li>深度感应和估计广泛工程应用：
+<blockquote>
+<p>Depth sensing and estimation is of vital importance in a wide range of engineering applications,  such as robotics, autonomous driving, augmented reality (AR) and 3D mapping.</p>
+</blockquote>
+</li>
+<li>稀疏深度测量值易获得：
+<blockquote>
+<p>For instance, low-resolution depth sensors (e.g., a low-cost LiDARs) provide such measurements.  Sparse depth measurements can also be computed from the output of SLAM and visual-inertial odometry algorithms.</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="三-相关工作">三、相关工作</h2>
+<h4 id="基于rgb的深度预测">基于RGB的深度预测</h4>
+<ol>
+<li>Laina等人基于ResNet开发了一个全卷积深度残差网络</li>
+<li>Godard等人将视差估计视为一个图像重建问题，训练神经网络使左图像扭曲变形以匹配右图像</li>
+</ol>
+<h4 id="从稀疏样本进行深度重建">从稀疏样本进行深度重建</h4>
+<ol>
+<li>Hawe等人假设视差映射在小波基础上是稀疏的，用共轭次梯度法重建了稠密的视差图像</li>
+<li>Liu等人结合小波和轮廓波字典，实现更精确的重建</li>
+</ol>
+<h4 id="传感器融合">传感器融合</h4>
+<ol>
+<li>Mancini等人提出了一个接受RGB图像和光流图像作为输入的CNN来预测距离信息</li>
+<li>Liao等人使用2D激光扫描仪以提供额外的深度参考信号作为输入，与单独使用RGB图像作为输入相比获得更高的准确度</li>
+<li>Cadena等人开发了一个多模式自编码器来学习三种输入模式包括RGB,深度和语义标签。他们使用从FAST corner特征提取的深度信息作为系统输入的一部分来产生低分辨率的深度预测</li>
+</ol>
+<h2 id="四-方法">四、方法</h2>
+<h4 id="cnn结构">CNN结构</h4>
+<p>实验发现，瓶颈结构(即编码器-解码器)会有很好的表现，于是选择Laina等人提出的深度全卷积残差网络。网络结构如图：<br>
+<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271535132.png" alt="image-20210927153549014" loading="lazy"><br>
+网络的编码层对KITTI数据集使用ResNet-18、对NYU-Depth-v2数据集使用ResNet-50，去除最后的平均池化层和全连接层，后接一个3×3的卷积层；解码层由4个上采样层和一个双线性上采样层组成</p>
+<h4 id="深度采样">深度采样</h4>
+<p>训练期间，从真值深度图像<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>D</mi><mo>∗</mo></msup></mrow><annotation encoding="application/x-tex">D^*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.688696em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span></span></span></span>中随机采样要输入的稀疏深度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span></span></span></span>。对于深度样本的任意目标数量<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span></span></span></span>，计算一个伯努利概率<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mo>=</mo><mfrac><mi>m</mi><mi>n</mi></mfrac><mi mathvariant="normal">，</mi><mi mathvariant="normal">其</mi><mi mathvariant="normal">中</mi></mrow><annotation encoding="application/x-tex">p=\frac{m}{n}，其中</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.040392em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">其</span><span class="mord cjk_fallback">中</span></span></span></span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>D</mi><mo>∗</mo></msup></mrow><annotation encoding="application/x-tex">D^*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.688696em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span></span></span></span>中有效深度像素的总和，对于任意像素(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi><mo separator="true">,</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i,j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span>):<br>
+<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271554469.png" alt="image-20210927155335716" loading="lazy"><br>
+通过这种策略每个训练样本的非零深度像素的实际数量在期望值<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span></span></span></span>附近变化</p>
+<h4 id="损失函数">损失函数</h4>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>对数据中的异常值敏感，在实验中还会产生过度平滑的边界，另一种选择是berHu损失函数：<br>
+<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271557024.png" alt="berHu损失函数" loading="lazy"><br>
+其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi></mrow><annotation encoding="application/x-tex">c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">c</span></span></span></span>等于一个batch中全部像素最大绝对误差的20%。实验还发现<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">L_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>对RGB的深度预测问题中有更好的结果，所以将<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">L_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>作为默认选择</p>
+<h2 id="实验结果">实验结果</h2>
+<h4 id="误差指标">误差指标</h4>
+<ol>
+<li>RMSE：均方根误差</li>
+<li>REL：平均相对绝对值误差</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>δ</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\delta_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03785em;">δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>：在阈值内的预测像素相对误差的百分比，越高越好<br>
+<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271606146.png" alt="image-20210927160641050" loading="lazy"></li>
+</ol>
+<h4 id="评估网络结构">评估网络结构</h4>
+<p><img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271609625.png" alt="" loading="lazy"><br>
+比较了三种损失函数，不同的上采样层以及第一个卷积层</p>
+<h4 id="与选进技术比较">与选进技术比较</h4>
+<ol>
+<li>NYU-Depth-v2 Dataset：<br>
+<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271627119.png" alt="image-20210927162723020" loading="lazy"><br>
+<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271631863.png" alt="image-20210927163103667" loading="lazy"></li>
+<li>KITTI Dataset：<br>
+<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271628460.png" alt="image-20210927162833344" loading="lazy"><br>
+<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271632086.png" alt="image-20210927163234971" loading="lazy"></li>
+</ol>
+<h4 id="深度样本数量">深度样本数量</h4>
+<ol>
+<li>NYU-Depth-v2 dataset：<br>
+<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271634982.png" alt="image-20210927163413876" loading="lazy"></li>
+<li>KITTI dataset：<br>
+<img src="http://qzxkrnf1b.hd-bkt.clouddn.com/img/202109271634222.png" alt="image-20210927163429122" loading="lazy"></li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>１.　提出了从RGB图像和稀疏深度样本点中预测密集的深度图像</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/deeper-depth-prediction-with-fully-convolutional-residual-networks/" class="post-title gt-a-link">
+                    Deeper Depth Prediction with Fully Convolutional Residual Networks
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

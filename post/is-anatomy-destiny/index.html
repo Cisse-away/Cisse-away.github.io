@@ -1,0 +1,349 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Is anatomy destiny | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Is anatomy destiny
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-04-30 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/F_0XQWMHo/" class="post-tags">
+                            # English Learn
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/WDsCmW81lS/" class="post-tags">
+                            # TED
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>Speaker：Alice Dreger</p>
+<h2 id="视频链接">视频链接</h2>
+<blockquote>
+<p><a href="https://www.ted.com/talks/alice_dreger_is_anatomy_destiny">原视频</a></p>
+</blockquote>
+<h2 id="摘要">摘要</h2>
+<ul>
+<li>
+<blockquote>
+<p>And a lot of what I've worked on is people who have atypical sex -- so people who don't have the standard male or the standard female body types. And as a general term, we can use the term &quot;intersex&quot; for this.<br>
+另外，许多我接触的人他们的性别与众不同—即他们没有很标准的男性特征或者女性特有的身体特征。总的来说，这个症状可以被叫做双性人。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>Intersex comes in a lot of different forms. There is a syndrome called androgen insensitivity syndrome. When the child is born, she looks like a girl. And it's often not until she hits puberty and she's growing and developing breasts, but she's not getting her period. And people do some tests and figure out that, instead of having ovaries inside and a uterus, she has testes inside, and she has a Y chromosome.<br>
+双性可以有多种的形式。有一种叫做睾丸不敏感（睾丸女性化）综合征的症状。当婴儿诞生时，她看起来像个女孩儿。大多数情况，直到青春期她的胸部开始发育的时候她却没有女性周期。于是人们检查发现她并没有卵巢和子宫，在她身体内有睾丸，并且她携带着Y染色体 。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>Now what's important to understand is you may think of this person as really being male, but they're really not. Most females like me are actually androgen-sensitive. Somebody like me has actually had a brain exposed to more androgens than the woman born with testes who has androgen insensitivity syndrome.<br>
+现在，有一个重要问题需要说明的是大家一定认为这个人实际上是个男孩儿，其实并非如此。大多数像我一样的女性实际上是雄激素敏感的，有的像我一样女性，大脑暴露在过多的雄性激素下，比那个出生时有睾丸的女孩，那个雄性激素不敏感综合征的女孩有的雄性激素还多。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>So sex is really complicated—it's not just that intersex people are in the middle of all the sex spectrum—in some ways, they can be all over the place.<br>
+所以说性别是个非常复杂的东西—并不是说那些双性的人就处在男性和女性之间—在某些方面，他们可以覆盖整个性特征的范围。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>The reason that children with these kinds of bodies are often &quot;normalized&quot; by surgeons is not because it actually leaves them better off in terms of physical health. In many cases, people are actually perfectly healthy. The reason they're often subject to various kinds of surgeries is because they threaten our social categories.<br>
+拥有这些身体特征的孩子们常被外科医生手术纠正的原因实际上并不是为了身体健康。因为很多情况下，他们的身体其实都很健康，他们接受各种外科手术的原因是因为他们受到我们社会上对人分类的威胁。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>So what we have is a sort of situation where the farther our science goes, the more we have to admit to ourselves that these categories that mapped very simply to stable identity categories are a lot more fuzzy than we thought. And it's not just in terms of sex. It's also in terms of race.<br>
+因此我们现在的情况是科学越发展，我们越得承认这些性别的分类形式是过于简单地给特性分了类，实际情况要比我们想象的模糊的多。并且这不仅仅是关于性别的问题。也同样是关于种族的问题。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>As we begin to look at all that commonality, we have to begin to question why we maintain certain divisions. There are some anatomical divisions that make sense to me and that I think we should retain. But the challenge is trying to figure out which ones they are and why do we retain them, and do they have meaning.<br>
+当我们开始去审视所有的公民 我们不得不开始质疑为什么我们去维护一个固定的界限。有一些在解剖学上的界限对我们来说是有意义的，我想那些应该被保留。但是艰巨的任务是试着去找出哪些是应该保留的，为什么我们要保留它们，它们有什么意义。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>So we have these anatomical categories that persist, that are in many ways problematic and questionable. And the question to me becomes: What do we do, as our science gets to be so good in looking at anatomy, that we reach the point where we have to admit that a democracy that's been based on anatomy might start falling apart? I don't want to give up the science, but at the same time, it feels sometimes like the science is coming out from under us.<br>
+因此我们所坚持的一些结构上的生物分类，它们在很多方面是有问题并且需要质疑的。对我来说，问题就变成了： 我们要做什么，当我们的科学在解剖学上如此先进的时候，我们已经到了不得不承认基于解剖学上的人的民主也许正在崩溃的时候？我不想对科学失去希望 但是同时，有的时候隐约觉得 科学的发展是受到我们影响的。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>And what we know from cross-cultural studies is that females, on average are more inclined to be very attentive to complex social relations and to taking care of people who are, basically, vulnerable within the group.<br>
+我们从跨文化研究中得知女性，平均的看更倾向于留意 复杂的社会关系 同时更加关心、同情人群中的弱势群体。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>I considered myself a feminist. One of my graduate advisors said, &quot;Tell me what's feminine about feminism.&quot;<br>
+我自认是女权主义者。我的一位指导教授说：“告诉我女权主义女性化在哪里”。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>When we take democracy beyond anatomy, is to think less about the individual body in terms of the identity, and think more about those relationships. So that as we the people try to create a more perfect union, we're thinking about what we do for each other.<br>
+当我们抛开人种的分别来讲民主—也就是较少的考虑到人的个体关于人的身份特性，而是更多的考虑人们之间的关系.因此，当人们试图创造一个更加美好的联合体的时候我们需要考虑的是我们为他人都做了什么。</p>
+</blockquote>
+</li>
+</ul>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/how-airbnb-designs-for-trust/" class="post-title gt-a-link">
+                    How Airbnb designs for trust
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

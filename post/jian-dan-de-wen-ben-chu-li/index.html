@@ -1,0 +1,374 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>简单的文本处理 | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    简单的文本处理
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-07-29 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/oeI2_1fDN/" class="post-tags">
+                            # Linux
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/ikIb3j07A/" class="post-tags">
+                            # 技术学习
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p><a href="https://www.lanqiao.cn/courses/1">参考课程-蓝桥云课</a></p>
+<h2 id="文本处理命令">文本处理命令</h2>
+<ol>
+<li>tr命令<br>
+-<code>tr</code> 命令可以用来删除一段文本信息中的某些文字。或者将其进行转换
+<ul>
+<li>使用方式</li>
+</ul>
+<pre><code class="language-bash">tr [option]...SET1 [SET2]
+</code></pre>
+<ul>
+<li>常用的选项<br>
+| 选项 | 说明                                                         |<br>
+| ---- | ------------------------------------------------------------ |<br>
+| <code>-d</code> | 删除和 set1 匹配的字符，注意不是全词匹配也不是按字符顺序匹配 |<br>
+| <code>-s</code> | 去除 set1 指定的在输入文本中连续并重复的字符                 |</li>
+<li>示例</li>
+</ul>
+<pre><code class="language-bash"># 删除 &quot;hello shiyanlou&quot; 中所有的'o'，'l'，'h'
+$ echo 'hello shiyanlou' | tr -d 'olh'
+# 将&quot;hello&quot; 中的ll，去重为一个l
+$ echo 'hello' | tr -s 'l'
+# 将输入文本，全部转换为大写或小写输出
+$ echo 'input some text here' | tr '[:lower:]' '[:upper:]'
+# 上面的'[:lower:]' '[:upper:]'你也可以简单的写作'[a-z]' '[A-Z]'，当然反过来将大写变小写也是可以的
+</code></pre>
+</li>
+<li>col命令
+<ul>
+<li>col 命令可以将<code>Tab</code>换成对等数量的空格键，或反转这个操作</li>
+<li>使用方式</li>
+</ul>
+<pre><code class="language-bash">col [option]
+</code></pre>
+<ul>
+<li>常用选项<br>
+| 选项 | 说明                          |<br>
+| ---- | ----------------------------- |<br>
+| <code>-x</code> | 将<code>Tab</code>转换为空格             |<br>
+| <code>-h</code> | 将空格转换为<code>Tab</code>（默认选项） |</li>
+<li>示例</li>
+</ul>
+<pre><code class="language-bash"># 查看 /etc/protocols 中的不可见字符，可以看到很多 ^I ，这其实就是 Tab 转义成可见字符的符号
+cat -A /etc/protocols
+# 使用 col -x 将 /etc/protocols 中的 Tab 转换为空格，然后再使用 cat 查看，你发现 ^I 不见了
+cat /etc/protocols | col -x | cat -A
+</code></pre>
+</li>
+<li>join命令
+<ul>
+<li>将两个文件中包含相同内容的那一行合并在一起</li>
+<li>使用方式</li>
+</ul>
+<pre><code class="language-bash">join [option]... file1 file2
+</code></pre>
+<ul>
+<li>常用选项<br>
+| 选项 | 说明                                                 |<br>
+| ---- | ---------------------------------------------------- |<br>
+| <code>-t</code> | 指定分隔符，默认为空格                               |<br>
+| <code>-i</code> | 忽略大小写的差异                                     |<br>
+| <code>-1</code> | 指明第一个文件要用哪个字段来对比，默认对比第一个字段 |<br>
+| <code>-2</code> | 指明第二个文件要用哪个字段来对比，默认对比第一个字段 |</li>
+<li>示例</li>
+</ul>
+<pre><code class="language-bash">cd /home/shiyanlou
+# 创建两个文件
+echo '1 hello' &gt; file1
+echo '1 shiyanlou' &gt; file2
+join file1 file2
+# 将 /etc/passwd 与 /etc/shadow 两个文件合并，指定以':'作为分隔符
+sudo join -t':' /etc/passwd /etc/shadow
+# 将 /etc/passwd 与 /etc/group 两个文件合并，指定以':'作为分隔符，分别比对第4和第3个字段
+sudo join -t':' -1 4 /etc/passwd -2 3 /etc/group
+</code></pre>
+</li>
+<li>paste命令
+<ul>
+<li><code>paste</code>这个命令与<code>join</code>命令类似，它是在不对比数据的情况下，简单地将多个文件合并一起，以<code>Tab</code>隔开</li>
+<li>使用方式</li>
+</ul>
+<pre><code class="language-bash">paste [option] file...
+</code></pre>
+<ul>
+<li>常用选项<br>
+| 选项 | 说明                         |<br>
+| ---- | ---------------------------- |<br>
+| <code>-d</code> | 指定合并的分隔符，默认为 Tab |<br>
+| <code>-s</code> | 不合并到一行，每个文件为一行 |</li>
+<li>示例</li>
+</ul>
+<pre><code class="language-bash">echo hello &gt; file1
+echo shiyanlou &gt; file2
+echo www.shiyanlou.com &gt; file3
+paste -d ':' file1 file2 file3
+paste -s file1 file2 file3
+</code></pre>
+</li>
+</ol>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/ming-ling-zhi-xing-shun-xu-kong-zhi-yu-guan-dao/" class="post-title gt-a-link">
+                    命令执行顺序控制与管道
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

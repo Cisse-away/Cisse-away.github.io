@@ -1,0 +1,331 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>How to get empowered, not overpowered, by AI | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    How to get empowered, not overpowered, by AI
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-04-23 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/F_0XQWMHo/" class="post-tags">
+                            # English Learn
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/WDsCmW81lS/" class="post-tags">
+                            # TED
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>Speaker：Max Tegmark</p>
+<h2 id="视频">视频</h2>
+<blockquote>
+<p><a href="https://www.ted.com/talks/max_tegmark_how_to_get_empowered_not_overpowered_by_ai">原视频</a></p>
+</blockquote>
+<h2 id="摘要">摘要</h2>
+<ul>
+<li>
+<blockquote>
+<p>We also have to figure out, if we're going to be really ambitious, how to steer it and where we want to go with it.<br>
+如果我们有足够的雄心壮志，就应当想出如何控制它们的方法，希望它朝着怎样的方向前进。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>This is the definition of artificial general intelligence -- AGI, which has been the holy grail of AI research since its inception.<br>
+这就成了通用人工智能（Artificial general intelligence）——AGI，从一开始它就是人工智能研究最终的圣杯。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>Which means that there's a possibility that further AI progress could be way faster than the typical human research and development timescale of years, raising the controversial possibility of an intelligence explosion where recursively self-improving AI rapidly leaves human intelligence far behind, creating what's known as superintelligence.<br>
+那就意味着有可能，进一步提升人工智能水平将会进行得非常迅速，甚至超越用年份来计算时间的典型人类研究和发展，提高到一种极具争议性的可能性，那就是智能爆炸，即能够不断做自我改进的人工智能很快就会遥遥领先人类，创造出所谓的超级人工智能。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>But this is going to require a change of strategy because our old strategy has been learning from mistakes.<br>
+但这也需要策略上的改变，因为我们以往的策略往往都是从错误中学习的。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>One is that we should avoid an arms race and lethal autonomous weapons. Another Asilomar AI principle is that we should mitigate AI-fueled income inequality. You'll appreciate this principle that we should invest much more in AI safety research.<br>
+其中一条规则是我们需要避免军备竞赛，以及致命的自动化武器出现；另一条阿西洛玛人工智能会议的原则是，我们应该要减轻由人工智能引起的收入不平等；你们会感谢这条准则，我们应该要投入更多以确保对人工智能安全性的研究。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>And this AI safety work has to include work on AI value alignment, because the real threat from AGI isn't malice, like in silly Hollywood movies, but competence -- AGI accomplishing goals that just aren't aligned with ours.<br>
+这项人工智能安全性的工作必须包含对人工智能价值观的校准，因为 AGI 会带来的威胁通常并非出于恶意——就像是愚蠢的好莱坞电影中表现的那样，而是源于能力——AGI想完成的目标与我们的目标背道而驰。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>With friendly AI, we could simply build all of these societies and give people the freedom to choose which one they want to live in because we would no longer be limited by our intelligence, merely by the laws of physics.<br>
+有了友善的人工智能，我们就能轻而易举地建立这些社会，让大家有自由去选择想要生活在怎样的社会里，因为我们不会再受到自身智慧的限制，唯一的限制只有物理的定律。</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>We can be ambitious -- thinking hard about how to steer our technology and where we want to go with it to create the age of amazement.<br>
+我们可以拥有雄心壮志——努力去找到操控我们科技的方法，以及向往的目的地，创造出真正令人惊奇的时代。</p>
+</blockquote>
+</li>
+</ul>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/the-beauty-of-being-a-misfit/" class="post-title gt-a-link">
+                    The beauty of being a misfit
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

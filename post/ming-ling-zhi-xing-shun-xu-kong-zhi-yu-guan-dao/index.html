@@ -1,0 +1,366 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>命令执行顺序控制与管道 | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    命令执行顺序控制与管道
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-07-29 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/oeI2_1fDN/" class="post-tags">
+                            # Linux
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/ikIb3j07A/" class="post-tags">
+                            # 技术学习
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p><a href="https://www.lanqiao.cn/courses/1">参考课程-蓝桥云课</a></p>
+<h2 id="命令执行顺序的控制">命令执行顺序的控制</h2>
+<ol>
+<li>顺序执行多条命令<br>
+简单的顺序执行可以使用<code>;</code>来完成</li>
+<li>有选择的执行命令<br>
+通过<code>&amp;&amp;</code>或<code>||</code>来实现选择性执行，<code>&amp;&amp;</code>表示若前面的命令执行结果返回0则而执行后面的，狗则不执行，<code>||</code>相反<pre><code class="language-bash">which cowsay&gt;/dev/null &amp;&amp; echo &quot;exist&quot; || echo &quot;not exist&quot;
+</code></pre>
+</li>
+</ol>
+<h2 id="管道">管道</h2>
+<ol>
+<li>使用管道查看目录下大量文件<pre><code class="language-bash">ls -al /etc | less  #通过管道将前一个命令(ls)的输出作为下一个命令(less)的输入，然后就可以一行一行地看
+</code></pre>
+</li>
+<li>cut命令，打印每一行的某一字段
+<ul>
+<li>打印<code>/etc/passwd</code>文件中以 : 为分隔符的第 1 个字段和第 6 个字段分别表示用户名和其家目录：</li>
+</ul>
+<pre><code class="language-bash">cut /etc/passwd -d ':' -f 1,6
+</code></pre>
+<ul>
+<li>打印<code>/etc/passwd</code>文件中每一行的前 N 个字符：</li>
+</ul>
+<pre><code class="language-bash"># 前五个（包含第五个）
+cut /etc/passwd -c -5
+# 前五个之后的（包含第五个）
+cut /etc/passwd -c 5-
+# 第五个
+cut /etc/passwd -c 5
+# 2 到 5 之间的（包含第五个）
+cut /etc/passwd -c 2-5
+</code></pre>
+</li>
+</ol>
+<h2 id="grep命令在文本中或stdin中查找匹配字符串">grep命令，在文本中或stdin中查找匹配字符串</h2>
+<ol>
+<li><code>grep</code>命令的一般形式：<pre><code class="language-bash">grep [命令选项]... 用于匹配的表达式 [文件]...
+</code></pre>
+</li>
+<li>查看环境变量中以 &quot;yanlou&quot; 结尾的字符串<pre><code class="language-bash">    export | grep &quot;.*yanlou$&quot;
+</code></pre>
+</li>
+</ol>
+<h2 id="wc命令简单小巧的计数工具">wc命令，简单小巧的计数工具</h2>
+<ol>
+<li>统计并输出一个文件中行、单词和字节的数目<pre><code class="language-bash">wc /etc/passwd
+</code></pre>
+</li>
+<li>分别只输出行数、单词数、字节数、字符数和输入文本中最长一行的字节数：<pre><code class="language-bash"># 行数
+wc -l /etc/passwd
+# 单词数
+wc -w /etc/passwd
+# 字节数
+wc -c /etc/passwd
+# 字符数
+wc -m /etc/passwd
+# 最长行字节数
+wc -L /etc/passwd
+</code></pre>
+</li>
+<li>结合管道来统计<code>/etc</code>下面所有目录数：<pre><code class="language-bash">ls -dl /etc/*/ | wc -l
+</code></pre>
+</li>
+</ol>
+<h2 id="sort排序命令">sort排序命令</h2>
+<ol>
+<li>默认为字典排序：<pre><code class="language-bash">cat /etc/passwd | sort
+</code></pre>
+</li>
+<li>反转排序：<pre><code class="language-bash">cat /etc/passwd | sort -r
+</code></pre>
+</li>
+<li>按特定字段排序：<pre><code class="language-bash">cat /etc/passwd | sort -t':' -k 3
+</code></pre>
+上面的-t参数用于指定字段的分隔符，这里是以&quot;:&quot;作为分隔符；-k 字段号用于指定对哪一个字段进行排序。这里/etc/passwd文件的第三个字段为数字，默认情况下是以字典序排序的，如果要按照数字排序就要加上-n参数：<pre><code class="language-bash">cat /etc/passwd | sort -t':' -k 3 -n
+</code></pre>
+</li>
+</ol>
+<h2 id="uniq去重命令">uniq去重命令</h2>
+<ol>
+<li>过滤重复行<pre><code class="language-bash">history | cut -c 8- | cut -d ' ' -f 1 | sort | uniq  #uniq只能去连续重复的行，需要排序才能达到全文去重的效果
+</code></pre>
+</li>
+<li>输出重复行<pre><code class="language-bash"># 输出重复过的行（重复的只输出一个）及重复次数
+history | cut -c 8- | cut -d ' ' -f 1 | sort | uniq -dc
+# 输出所有重复的行
+history | cut -c 8- | cut -d ' ' -f 1 | sort | uniq -D
+</code></pre>
+</li>
+</ol>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/linux-ren-wu-ji-hua-crontab/" class="post-title gt-a-link">
+                    Linux任务计划crontab
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,764 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Xposed框架、模块合集[转载] | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1634178621164">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1634178621164"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Xposed框架、模块合集[转载]
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-04-27 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/7ZBZaTtFs/" class="post-tags">
+                            # 刷机
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/cDeOvva5KO/" class="post-tags">
+                            # 模块
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h2 id="原链接"><a href="https://shimo.im/docs/khWT3wdJywqXQyT9">原链接</a></h2>
+<p>链接模块有失效可点击右下角评论会在第一时间补发<br>
+更多模块加入交流Q群太极：831335812<br>
+点击链接加入：<br>
+https://jq.qq.com/?_wv=1027&amp;k=nOVamWyM<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊<br>
+重要的事情说三遍！！！<br>
+下载地址统一密码：OJBK<br>
+下载地址统一密码：OJBK<br>
+下载地址统一密码：OJBK<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊<br>
+注意：如果您从未听说过此应用或从未接触过此方面的知识，建议您立刻关闭此页面<br>
+模块都有封号危险，有的几率更大一点而已，qx很少听说，qn会封号的听到的比较多</p>
+<p>【QQ专用模块】<br>
+花Q：<br>
+https://nalankang.lanzous.com/b00tg274j<br>
+QQ复读机：<br>
+https://nalankang.lanzous.com/b00u9f1yf<br>
+H.entai.Q(增强模块)：<br>
+https://nalankang.lanzous.com/b00u73uof<br>
+绿豆(增强模块)：<br>
+https://nalankang.lanzous.com/b00u74h3c<br>
+QN(增强模块)：<br>
+https://nalankang.lanzous.com/b00tsdawd<br>
+QX(增强模块)：<br>
+https://www.lanzoui.com/b00u0c8md<br>
+QQ瘦身(清理垃圾)：<br>
+https://nalankang.lanzous.com/b00tszuzi<br>
+ColorQQ2(主题美化)：<br>
+https://nalankang.lanzous.com/b00u9sekh<br>
+QQ省电模块：<br>
+https://nalankang.lanzous.com/b00u9clng<br>
+QScript脚本模块：<br>
+https://nalankang.lanzous.com/b00u94zfe<br>
+XAutoDaily(QQ自动签到)：<br>
+https://nalankang.lanzous.com/b00udwffg<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【微信专用模块】<br>
+微X模块 ：<br>
+https://www.lanzoui.com/b00tujq4j<br>
+微分组：<br>
+https://nalankang.lanzous.com/b00u7165a<br>
+微群发：<br>
+https://nalankang.lanzous.com/b00u7164j<br>
+微密友：<br>
+https://nalankang.lanzous.com/b00u716hc<br>
+微增强：<br>
+https://nalankang.lanzous.com/b00u7311i<br>
+微抖图：<br>
+https://nalankang.lanzous.com/b00u7163i<br>
+畅玩微信：<br>
+https://nalankang.lanzous.com/b00u757wh<br>
+企业助手：<br>
+https://nalankang.lanzous.com/b00u716mh<br>
+微信学英语：<br>
+https://nalankang.lanzous.com/b00udu6vg<br>
+MDWechat(微信美化)：<br>
+https://nalankang.lanzous.com/b00u7166b<br>
+V++：<br>
+https://nalankang.lanzous.com/iFHt3n8udfe</p>
+<p>﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊<br>
+【系统增强模块】<br>
+全局复制：<br>
+https://www.lanzoui.com/iNjcbh1ex8d<br>
+Xp快译：<br>
+https://nalankang.lanzous.com/tp/ipnxCn6pb3i<br>
+强制截图：<br>
+https://www.lanzoui.com/i2d70h1ez8f<br>
+文本自定义：<br>
+https://www.lanzoui.com/izfDpdcai0d<br>
+指纹zf：<br>
+https://nalankang.lanzous.com/b00twbp5i<br>
+伪装WiFi连接：<br>
+https://www.lanzoui.com/b00tvgw6f<br>
+原生音乐通知栏：<br>
+https://www.lanzoui.com/b00tsmf3i<br>
+移除截屏延迟：<br>
+https://nalankang.lanzous.com/isXezjesckd<br>
+短信验f·码提取：<br>
+https://nalankang.lanzous.com/b00uaxssf<br>
+xSuite(修改应用图标)：<br>
+https://www.lanzoui.com/i49dhgt6zij<br>
+无障碍-Daemon：<br>
+https://www.lanzoui.com/iRz8qim5hda<br>
+锁定·通知：<br>
+https://www.coolapk.com/apk/me.singleneuron.locknotification<br>
+Xposed edge por(边缘手势)：<br>
+https://www.lanzoui.com/b00tvgqqj<br>
+锤子BigBang_XP专版：<br>
+https://www.coolapk.com/apk/com.forfan.bigbang.coolapk<br>
+导航·栏·扩展模块：<br>
+https://www.coolapk.com/apk/com.egguncle.xposednavigationbar<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【核心破解】<br>
+核心破解3.3(安卓10-11)：<br>
+https://www.lanzoui.com/b00u2j7xc<br>
+核心破解2.2(安卓9-10)：<br>
+https://wwi.lanzoui.com/iQS6Gjdk6zi<br>
+核心破解2.1(安卓8.x)：<br>
+https://www.lanzoui.com/iq7ZYjdk6ve<br>
+核心破解2.0(安卓7.x)：<br>
+https://wwi.lanzoui.com/ic56Ljgow5g<br>
+核心破解1.4(安卓4.x 5.x 6.x)：<br>
+https://www.lanzoui.com/iaKd1jdk6pi<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【蚂·蚁森·林模块】<br>
+蚂·蚁森·林XQE版：<br>
+https://www.lanzoui.com/b00tsmwvi<br>
+蚂·蚁森·林秋风版：<br>
+https://www.lanzoui.com/b00tphmhg<br>
+蚂·蚁森·林蜡笔小新版：<br>
+https://nalankang.lanzous.com/b00u7fmyj<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【应用变量模块】<br>
+应用伪装：<br>
+https://nalankang.lanzous.com/b00u9amhe<br>
+应用变量：<br>
+https://www.lanzoui.com/iFeH6h1ehxc<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【模拟位置】<br>
+模拟位置：<br>
+https://www.lanzoui.com/b00tvpb1i<br>
+lataclysm(伪装位置)：<br>
+https://nalankang.lanzous.com/izZ3xljlaqh<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【哔哩哔哩模块】<br>
+哔哩补丁：<br>
+https://nalankang.lanzous.com/igGPQlrcepe<br>
+哔哩漫游：<br>
+https://www.lanzoui.com/b00ttp0kj<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【钉钉模块】<br>
+钉钉打卡：<br>
+https://www.lanzoui.com/b00tw4j8d<br>
+钉钉助手：<br>
+https://www.lanzoui.com/b00ty6xeh<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【抖·音模块】<br>
+抖·音助手：<br>
+https://www.lanzoui.com/b00tuzfsd<br>
+抖·音+：<br>
+https://nalankang.lanzous.com/b00u6mqej<br>
+抖·音伴侣：<br>
+https://www.lanzoui.com/b00t5ypuj<br>
+AdAway：<br>
+https://www.lanzoui.com/b00tsmbgh<br>
+要你命三千：<br>
+https://www.lanzoui.com/b00tw4jhc<br>
+诺诺诺嗯：<br>
+https://wwi.lanzous.com/b00u5t5wh<br>
+HookBox(超级Hook盒子)：<br>
+https://nalankang.lanzous.com/b00uembsb<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【皮皮虾快手模块】<br>
+皮皮虾助手：<br>
+https://www.lanzoui.com/b00tvgswh<br>
+诺诺诺嗯：<br>
+https://wwi.lanzous.com/b00u5t5wh<br>
+要你命三千：<br>
+https://www.lanzoui.com/b00tw4jhc<br>
+快手+：<br>
+https://nalankang.lanzous.com/b00u8r2cf<br>
+AdAway：<br>
+https://www.lanzoui.com/b00tsmbgh<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【百度贴吧模块】<br>
+帖吧TS(帖吧净化)：<br>
+https://www.lanzoui.com/b00tzwihc<br>
+百度贴吧伴侣：<br>
+https://www.lanzoui.com/b00u0l13g<br>
+百度贴吧助手：<br>
+https://nalankang.lanzous.com/b00uecoyf<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【魅族专用模块】<br>
+Flyme8 助手：<br>
+https://www.lanzoui.com/b00t637bc<br>
+FXposed：<br>
+https://www.lanzoui.com/idOHzht8kva<br>
+MZXPT(魅族工具箱)：<br>
+https://www.lanzoui.com/b00tw4g4b<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【MIUI专用模块】<br>
+小米净化：<br>
+https://www.lanzoui.com/b00tyatha<br>
+ChiMi(MIUI增强模块)：<br>
+https://www.lanzoui.com/b00t6n0ti<br>
+CustoMIUIzer(MIUI专用)：<br>
+https://www.lanzoui.com/b00tyaawb<br>
+XMiTools：<br>
+https://www.coolapk.com/apk/com.tianma.tweaks.miui<br>
+Miui12双排状态栏：<br>
+https://www.coolapk.com/apk/com.lz.teemo<br>
+MIUI双开限制解除模块：<br>
+https://nalankang.lanzous.com/b00u9zola<br>
+解锁MIUI键盘优化：<br>
+https://nalankang.lanzous.com/b00ud00la<br>
+MIUI全局高帧：<br>
+https://nalankang.lanzous.com/b00ud00wb<br>
+米窗-全局小窗：<br>
+https://www.coolapk.com/apk/com.sunshine.freeform<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【一加专用模块】<br>
+万·物：<br>
+https://www.coolapk.com/apk/com.bangtu.opaod<br>
+OnePlus Themes：<br>
+https://www.coolapk.com/apk/com.jizhi.optheme<br>
+一加拓展XP：<br>
+https://www.coolapk.com/apk/com.davidking.optools<br>
+一加zw拓展：<br>
+https://www.coolapk.com/apk/com.davidking.xposed.opfingerprint<br>
+一加状态栏网速：<br>
+https://www.coolapk.com/apk/me.seasonyuu.xposed.networkspeedindicator.h2os<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【应用破.解】<br>
+BuyTool幸运内购：<br>
+https://www.lanzoui.com/b00ttwnti<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【网易云音乐模块】<br>
+杜比大喇叭β版：<br>
+https://nalankang.lanzous.com/b00u9dtif<br>
+UnblockMusic.Pro：<br>
+https://nalankang.lanzous.com/b00u9dtwj<br>
+网易云音乐插件：<br>
+https://nalankang.lanzous.com/iFEzDgt5bri<br>
+云村清洁工：<br>
+https://nalankang.lanzous.com/in7DElr49xe<br>
+网易云专辑封面禁旋转：<br>
+https://nalankang.lanzous.com/b00u9ezsh<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【运动修改模块】<br>
+运动修改器：<br>
+https://www.lanzoui.com/b00to5bpa<br>
+运动加速器：<br>
+https://nalankang.lanzous.com/b00u8tp0d<br>
+运动模拟器：<br>
+https://nalankang.lanzous.com/iAVp7lridyd<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【应用管理模块】<br>
+应用控制器：<br>
+https://www.lanzoui.com/ili9Rgt6rib<br>
+应用管理：<br>
+https://www.lanzoui.com/ibNpugt6sih<br>
+阻止运行：<br>
+https://nalankang.lanzous.com/b00tjjhaf<br>
+绿色守护：<br>
+https://www.lanzoui.com/b00tw4f3e<br>
+Thanox(灭霸)：<br>
+https://nalankang.lanzous.com/b00ucbm7i<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【隐私保护模块】<br>
+X隐私保护：<br>
+https://nalankang.lanzous.com/b00uanape<br>
+XPrivacyLua：<br>
+https://nalankang.lanzous.com/b00u9131a<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【状态栏变色模块】<br>
+PerfectColorBar：<br>
+https://www.lanzoui.com/irKuHgt707e<br>
+微聚旧版：<br>
+https://www.coolapk.com/apk/io.tvcfish.xposedbox<br>
+微聚新版：<br>
+https://www.coolapk.com/apk/io.ikws4.weiju<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【隐藏Root模块】<br>
+zuper(隐藏Xposed和Root)：<br>
+https://nalankang.lanzous.com/i2iuJgvqumf<br>
+RootCloak(隐藏Root)：<br>
+https://wwi.lanzoui.com/iD7LLjks9ab<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【对话框取消模块】<br>
+对话框取消beta版：<br>
+https://nalankang.lanzous.com/iX6Cvl4nzjc<br>
+对话框取消：<br>
+https://nalankang.lanzous.com/iHJzpl4nyuh<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【去广告模块】<br>
+大圣净化：<br>
+https://nalankang.lanzous.com/b00u8uhij<br>
+悟空加速：<br>
+https://nalankang.lanzous.com/b00u8uhja<br>
+AdBlocker：<br>
+https://nalankang.lanzous.com/b00tf5ive<br>
+油guan去广告模块合集：<br>
+https://nalankang.lanzous.com/b00u8om6b<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【存储重定向模块】<br>
+XInternalSD：<br>
+https://nalankang.lanzous.com/i44wggt6jni<br>
+SD重定向：<br>
+https://nalankang.lanzous.com/i1U2bgt6jgb<br>
+LT NoLitter：<br>
+https://nalankang.lanzous.com/iyvTfgt6jmh<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【建·行工·行模块】<br>
+建H忽略root修复版：<br>
+https://www.lanzoui.com/ifQ6Chnuekj<br>
+建H殺S：<br>
+https://www.lanzoui.com/insPchnubsj<br>
+BankRX(建H工H忽略root)：<br>
+https://www.lanzoui.com/iQH4Nhpiuni<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【微博模块】<br>
+微博+：<br>
+https://nalankang.lanzous.com/b00u8r25i<br>
+AdAway：<br>
+https://www.lanzoui.com/b00tsmbgh<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【重力工具箱】<br>
+GravityBox[安卓8] ：<br>
+https://nalankang.lanzous.com/b00u9xezc<br>
+GravityBox[安卓9] ：<br>
+https://nalankang.lanzous.com/b00u9xf7a<br>
+GravityBox[安卓10] ：<br>
+https://nalankang.lanzous.com/b00u9xfdg<br>
+GravityBox[安卓11] ：<br>
+https://nalankang.lanzous.com/b00u9xffi<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【小红米模块】<br>
+X小红书：<br>
+https://nalankang.lanzous.com/b00u9cabi<br>
+小红书+：<br>
+https://nalankang.lanzous.com/b00ucb8pc<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【其他模块】<br>
+放开我的剪贴板：<br>
+https://www.coolapk.com/apk/cn.nlifew.clipmgr<br>
+定时清理(清理文件和文件夹)：<br>
+https://www.lanzoui.com/i62C4ilqksd<br>
+xposed黑名单(禁用Xposed)：<br>
+https://www.lanzoui.com/iuJe2h1efgd<br>
+去伱大.爷的内置浏览器：<br>
+https://www.lanzoui.com/iJLBYiqgs6j<br>
+AllTrans(应用内翻译)：<br>
+https://www.coolapk.com/feed/23531453?shareKey=ODIwMTk2NDJhMzVkNWZkNzE1MGY~&amp;shareUid=462071&amp;shareFrom=com.coolapk.market_11.0-beta4<br>
+知了(知乎增强模块)：<br>
+https://www.lanzoui.com/b00tt2w1e<br>
+面具hide增强模块：<br>
+https://www.lanzoui.com/iMmPihuq4wj<br>
+血轮眼(禁用服务)：<br>
+https://nalankang.lanzous.com/b00ucdbhe<br>
+你才长按复制访问：<br>
+https://www.lanzoui.com/ioyl2i0bd5c<br>
+导航栏扩展模块：<br>
+https://www.coolapk.com/apk/com.egguncle.xposednavigationbar<br>
+今日头条+：<br>
+https://nalankang.lanzous.com/b00u8r28b<br>
+假装分享：<br>
+https://nalankang.lanzous.com/iOJ09lmdg4b<br>
+学习强国模块：<br>
+https://nalankang.lanzous.com/b00ubkikf<br>
+腾爱优芒豆去广告：<br>
+https://www.lanzoui.com/b00tsmwqd<br>
+Magisk hide(面具增强模块)：<br>
+https://www.lanzoui.com/iMmPihuq4wj<br>
+太极更新宝(太极阴专用)：<br>
+https://nalankang.lanzous.com/itU7Fkwxova<br>
+一个让你感觉卧曹卧曹的模块：<br>
+https://www.lanzoui.com/ii7Hzgt6zsj<br>
+应用设置重生版：<br>
+https://nalankang.lanzous.com/b00u7e3ni<br>
+上帝模式：<br>
+https://www.lanzoui.com/ixLFIhnvewh<br>
+飞书助手：<br>
+https://www.lanzoui.com/b00tx61rc<br>
+数据过滤：<br>
+https://nalankang.lanzous.com/b00ubhcpg<br>
+阿里系Xposed反检测：<br>
+https://nalankang.lanzous.com/ikPQ5n2y3pc<br>
+淘饭饭(自动领券并返利)：<br>
+https://nalankang.lanzous.com/b00ue7nlg<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【Magisk面具】<br>
+MagiskManager(面具权限管理器)：<br>
+https://nalankang.lanzous.com/b00u7gcij<br>
+Magisk卡刷包：<br>
+https://nalankang.lanzous.com/b00u7gexg<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【Edxposed框架】<br>
+Riru Core模块：<br>
+https://nalankang.lanzous.com/b00u7gi9g<br>
+Edxposed阿尔法(SandHook版)：<br>
+https://nalankang.lanzous.com/b00u7gnpc<br>
+Edxposed阿尔法(YAHFA版)：<br>
+https://nalankang.lanzous.com/b00u7gq8d<br>
+Edxposed金丝雀(SandHook&amp;YAHFA)：<br>
+https://nalankang.lanzous.com/b00u7h7ah<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【LSPosed框架】<br>
+Riru模块：<br>
+https://nalankang.lanzous.com/b00u7gi9g<br>
+LSPosedManager管理器：<br>
+https://nalankang.lanzous.com/b00u7ryaj<br>
+LSPosed：<br>
+https://nalankang.lanzous.com/b00u7rzoj<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【应用分享】<br>
+搞机助手：<br>
+https://www.lanzoui.com/b00tugduj<br>
+HiShoot2i(带壳截图)：<br>
+https://www.coolapk.com/feed/23323081?shareKey=NDc1ZTcyNzA5MzJiNWZjODYxMDE~&amp;shareUid=462071&amp;shareFrom=com.coolapk.market_11.0-beta2<br>
+应用转生(Xposed框架免Root)：<br>
+https://www.lanzoui.com/b00u1wq0f<br>
+UC浏览器(去广告)：<br>
+https://www.lanzoui.com/iVQX6gbweha<br>
+ES管理器美化版：<br>
+【 https://nalankang.lanzous.com/iFtrkiltcza 】<br>
+【 https://nalankang.lanzous.com/iyenujj4y3e 】<br>
+幸运破解器：<br>
+https://www.lanzoui.com/b00u06nfa<br>
+Speedtest(网速测试)：<br>
+https://www.lanzoui.com/b00u06nch<br>
+温控拜拜(删除温控)：<br>
+https://www.lanzoui.com/i8YXOig4oob<br>
+镜像助手(提取、刷入REC)：<br>
+https://www.lanzoui.com/ilViPijcsna<br>
+TWRP(下载刷入TWRP)：<br>
+https://www.lanzoui.com/b00u06y2d<br>
+APK编辑器：<br>
+https://www.lanzoui.com/b00u06q0d<br>
+微软远程桌面：<br>
+https://www.lanzoui.com/b00u06qib<br>
+歌词适配(网易云音乐下载)：<br>
+https://www.lanzoui.com/b00u06rdc<br>
+ADM(下载工具)：<br>
+https://www.lanzoui.com/b00u06sid<br>
+IDM+(下载工具)：<br>
+https://www.lanzoui.com/b00u06sje<br>
+快图浏览器(魔改版)：<br>
+https://www.lanzoui.com/b00u06uhe<br>
+闪电下载：<br>
+https://www.lanzoui.com/b00u06tlc<br>
+联通营业厅(去广告)：<br>
+https://www.lanzoui.com/b00u06vxg<br>
+ES文件管理器(VIP)：<br>
+https://www.lanzoui.com/b00u2b9pi<br>
+黑阈(阻止运行)：<br>
+https://nalankang.lanzous.com/b00u71uwb<br>
+云闪付(谷歌版)：<br>
+https://nalankang.lanzous.com/b00u71vte<br>
+Nova启动器：<br>
+https://nalankang.lanzous.com/b00u7cmgd<br>
+钛备份：<br>
+https://nalankang.lanzous.com/b00u85wmd<br>
+山寨版谷哥市场：<br>
+https://nalankang.lanzous.com/b00u7hyze<br>
+RE文件管理器：<br>
+https://nalankang.lanzous.com/b00u85wja<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【Recovery卡刷包】<br>
+禁用所有Magisk模块：<br>
+https://nalankang.lanzous.com/iBN2Fmzpv8b<br>
+删除Riru和LSPosed：<br>
+https://nalankang.lanzous.com/ipIkEmzpv7a<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【面具字体】<br>
+筑紫A丸：<br>
+https://www.lanzoui.com/b00tg4gab<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【面具模块】<br>
+AD_hosts(为去广告而生)：<br>
+https://nalankang.lanzous.com/b00ueb7ve<br>
+ADB&amp;Fastboot模块：<br>
+https://nalankang.lanzous.com/iM73flgxzvg<br>
+Busybox模块：<br>
+https://nalankang.lanzous.com/iXg8Dlgy02d<br>
+音量键极速救砖：<br>
+https://nalankang.lanzous.com/iacl9lgy0vc<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【微信美化】<br>
+微X主题〈带土与琳〉：<br>
+https://www.coolapk.com/feed/24107117?shareKey=YzMwOGQ2YjljNTM4NjAwMWFkOWY~&amp;shareUid=462071&amp;shareFrom=com.coolapk.market_11.0-rc2<br>
+微X主题〈Q版蜘蛛侠〉<br>
+https://www.coolapk.com/feed/24230601?shareKey=YzBiYjhjMGQzMDgyNjAwMWFkOWQ~&amp;shareUid=462071&amp;shareFrom=com.coolapk.market_11.0-rc2<br>
+微X主题〈漫〉<br>
+https://www.coolapk.com/feed/24081843?shareKey=MTMwNTdjMjI0ZmQ5NjAwMWFkYzA~&amp;shareUid=462071&amp;shareFrom=com.coolapk.market_11.0-rc2<br>
+微X主题〈无题〉<br>
+https://www.coolapk.com/feed/22527630?shareKey=NTJiZTYyN2IzZmIwNjAwMWFlYTY~&amp;shareUid=462071&amp;shareFrom=com.coolapk.market_11.0-rc2<br>
+﹋﹊﹋﹊﹋﹊﹋﹊﹋﹊﹋<br>
+【PC端工具】<br>
+秋之盒：<br>
+https://nalankang.lanzous.com/b00u8myid<br>
+ADB工具：<br>
+https://nalankang.lanzous.com/b00u8mv1i j<br>
+搞机工具箱：<br>
+https://nalankang.lanzous.com/b00u8nnqb<br>
+搞机助手PC版：<br>
+https://nalankang.lanzous.com/b00u8muij<br>
+小米线刷工具售后版：<br>
+https://cloud.189.cn/t/e6Vra2jAfuae</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/leetcode-shua-ti-bi-ji-liang-shu-zhi-he/" class="post-title gt-a-link">
+                    Leetcode刷题笔记—两数之和
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>
