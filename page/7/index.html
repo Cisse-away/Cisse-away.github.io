@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>简单的文本处理 | CisseAway&#39;s blog</title>
+<title>CisseAway&#39;s blog</title>
 
 <link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1635398525318">
 
@@ -33,11 +33,11 @@
 <!--<script src="media/scripts/index.js"></script>-->
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <style>
+    <div class="main-content">
+        <style>
     /* 导航栏样式 */
     .navbar {
         position: relative;
@@ -198,145 +198,51 @@
         }
     }
 </script>
-    <div class="post-container">
-        <div class="post-detail gt-bg-theme-color-second">
-            <article class="gt-post-content">
-                <h2 class="post-title">
-                    简单的文本处理
-                </h2>
-                <div class="post-info">
-                    <time class="post-time gt-c-content-color-first">
-                        · 2021-07-29 ·
-                    </time>
-                    
-                        <a href="https://cisse-away.github.io/tag/oeI2_1fDN/" class="post-tags">
-                            # Linux
-                        </a>
-                    
-                        <a href="https://cisse-away.github.io/tag/ikIb3j07A/" class="post-tags">
-                            # 技术学习
-                        </a>
-                    
-                </div>
-                <div class="post-content">
-                    <p><a href="https://www.lanqiao.cn/courses/1">参考课程-蓝桥云课</a></p>
-<h2 id="文本处理命令">文本处理命令</h2>
-<ol>
-<li>tr命令<br>
--<code>tr</code> 命令可以用来删除一段文本信息中的某些文字。或者将其进行转换
-<ul>
-<li>使用方式</li>
-</ul>
-<pre><code class="language-bash">tr [option]...SET1 [SET2]
-</code></pre>
-<ul>
-<li>常用的选项<br>
-| 选项 | 说明                                                         |<br>
-| ---- | ------------------------------------------------------------ |<br>
-| <code>-d</code> | 删除和 set1 匹配的字符，注意不是全词匹配也不是按字符顺序匹配 |<br>
-| <code>-s</code> | 去除 set1 指定的在输入文本中连续并重复的字符                 |</li>
-<li>示例</li>
-</ul>
-<pre><code class="language-bash"># 删除 &quot;hello shiyanlou&quot; 中所有的'o'，'l'，'h'
-$ echo 'hello shiyanlou' | tr -d 'olh'
-# 将&quot;hello&quot; 中的ll，去重为一个l
-$ echo 'hello' | tr -s 'l'
-# 将输入文本，全部转换为大写或小写输出
-$ echo 'input some text here' | tr '[:lower:]' '[:upper:]'
-# 上面的'[:lower:]' '[:upper:]'你也可以简单的写作'[a-z]' '[A-Z]'，当然反过来将大写变小写也是可以的
-</code></pre>
-</li>
-<li>col命令
-<ul>
-<li>col 命令可以将<code>Tab</code>换成对等数量的空格键，或反转这个操作</li>
-<li>使用方式</li>
-</ul>
-<pre><code class="language-bash">col [option]
-</code></pre>
-<ul>
-<li>常用选项<br>
-| 选项 | 说明                          |<br>
-| ---- | ----------------------------- |<br>
-| <code>-x</code> | 将<code>Tab</code>转换为空格             |<br>
-| <code>-h</code> | 将空格转换为<code>Tab</code>（默认选项） |</li>
-<li>示例</li>
-</ul>
-<pre><code class="language-bash"># 查看 /etc/protocols 中的不可见字符，可以看到很多 ^I ，这其实就是 Tab 转义成可见字符的符号
-cat -A /etc/protocols
-# 使用 col -x 将 /etc/protocols 中的 Tab 转换为空格，然后再使用 cat 查看，你发现 ^I 不见了
-cat /etc/protocols | col -x | cat -A
-</code></pre>
-</li>
-<li>join命令
-<ul>
-<li>将两个文件中包含相同内容的那一行合并在一起</li>
-<li>使用方式</li>
-</ul>
-<pre><code class="language-bash">join [option]... file1 file2
-</code></pre>
-<ul>
-<li>常用选项<br>
-| 选项 | 说明                                                 |<br>
-| ---- | ---------------------------------------------------- |<br>
-| <code>-t</code> | 指定分隔符，默认为空格                               |<br>
-| <code>-i</code> | 忽略大小写的差异                                     |<br>
-| <code>-1</code> | 指明第一个文件要用哪个字段来对比，默认对比第一个字段 |<br>
-| <code>-2</code> | 指明第二个文件要用哪个字段来对比，默认对比第一个字段 |</li>
-<li>示例</li>
-</ul>
-<pre><code class="language-bash">cd /home/shiyanlou
-# 创建两个文件
-echo '1 hello' &gt; file1
-echo '1 shiyanlou' &gt; file2
-join file1 file2
-# 将 /etc/passwd 与 /etc/shadow 两个文件合并，指定以':'作为分隔符
-sudo join -t':' /etc/passwd /etc/shadow
-# 将 /etc/passwd 与 /etc/group 两个文件合并，指定以':'作为分隔符，分别比对第4和第3个字段
-sudo join -t':' -1 4 /etc/passwd -2 3 /etc/group
-</code></pre>
-</li>
-<li>paste命令
-<ul>
-<li><code>paste</code>这个命令与<code>join</code>命令类似，它是在不对比数据的情况下，简单地将多个文件合并一起，以<code>Tab</code>隔开</li>
-<li>使用方式</li>
-</ul>
-<pre><code class="language-bash">paste [option] file...
-</code></pre>
-<ul>
-<li>常用选项<br>
-| 选项 | 说明                         |<br>
-| ---- | ---------------------------- |<br>
-| <code>-d</code> | 指定合并的分隔符，默认为 Tab |<br>
-| <code>-s</code> | 不合并到一行，每个文件为一行 |</li>
-<li>示例</li>
-</ul>
-<pre><code class="language-bash">echo hello &gt; file1
-echo shiyanlou &gt; file2
-echo www.shiyanlou.com &gt; file3
-paste -d ':' file1 file2 file3
-paste -s file1 file2 file3
-</code></pre>
-</li>
-</ol>
 
-                </div>
-            </article>
-        </div>
-
+        <div class="post-list-container">
+    <div class="post-inner">
         
-            <div class="next-post">
-                <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://cisse-away.github.io/post/ming-ling-zhi-xing-shun-xu-kong-zhi-yu-guan-dao/" class="post-title gt-a-link">
-                    命令执行顺序控制与管道
-                </a>
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://cisse-away.github.io/post/hello-gridea/">
+                            <span class="post-title gt-c-content-color-first">Hello Gridea</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2018-12-12 ·
+                        </time>
+                        
+                            <a href="https://cisse-away.github.io/tag/gridea/" class="post-tag">
+                                # Gridea
+                            </a>
+                        
+                    </div>
+                </div>
+                
+                    <a href="https://cisse-away.github.io/post/hello-gridea/" class="post-feature-image"
+                       style="background-image: url('https://cisse-away.github.io//post-images/hello-gridea.png')">
+                    </a>
+                
             </div>
         
+    </div>
+</div>
 
-        
+        <div class="pagination-container">
+    
+        <a href="https://cisse-away.github.io/page/6/" class="prev-page gt-a-link">上一页</a>
+    
+    
+</div>
 
-        
-
-        
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">Record Growth</div>

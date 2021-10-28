@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://cisse-away.github.io/</id>
     <title>CisseAway&apos;s blog</title>
-    <updated>2021-10-27T13:25:23.972Z</updated>
+    <updated>2021-10-28T05:22:13.754Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://cisse-away.github.io/"/>
     <link rel="self" href="https://cisse-away.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://cisse-away.github.io/images/avatar.png</logo>
     <icon>https://cisse-away.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, CisseAway&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[How do neural networks see depth in single images?]]></title>
+        <id>https://cisse-away.github.io/post/how-do-neural-networks-see-depth-in-single-images/</id>
+        <link href="https://cisse-away.github.io/post/how-do-neural-networks-see-depth-in-single-images/">
+        </link>
+        <updated>2021-10-28T05:16:23.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Visualization of Convolutional Neural Networksfor Monocular Depth Estimation]]></title>
         <id>https://cisse-away.github.io/post/visualization-of-convolutional-neural-networksfor-monocular-depth-estimation/</id>
@@ -72,12 +79,5 @@
         <link href="https://cisse-away.github.io/post/lesslessdong-shou-xue-shen-du-xue-xi-greatergreater-duo-ceng-gan-zhi-ji/">
         </link>
         <updated>2021-08-11T01:50:27.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[《动手学深度学习》——线性神经网络]]></title>
-        <id>https://cisse-away.github.io/post/lesslessdong-shou-xue-shen-du-xue-xi-greatergreater-xian-xing-shen-jing-wang-luo/</id>
-        <link href="https://cisse-away.github.io/post/lesslessdong-shou-xue-shen-du-xue-xi-greatergreater-xian-xing-shen-jing-wang-luo/">
-        </link>
-        <updated>2021-08-09T01:49:26.000Z</updated>
     </entry>
 </feed>

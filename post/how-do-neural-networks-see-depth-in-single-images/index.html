@@ -1,0 +1,411 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>How do neural networks see depth in single images? | CisseAway&#39;s blog</title>
+
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1635398525318">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <style>
+    /* 导航栏样式 */
+    .navbar {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+
+    .navbar-brand:hover,
+    .navbar-brand:focus {
+        text-decoration: none;
+    }
+
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .navbar-collapse {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .navbar-toggler:hover,
+    .navbar-toggler:focus {
+        text-decoration: none;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg {
+            -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            -ms-flex-direction: row;
+            flex-direction: row;
+        }
+
+        .navbar-expand-lg .navbar-collapse {
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+        }
+
+        .navbar-expand-lg .navbar-toggler {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #navbarSupportedContent {
+            display: none;
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CisseAway&#39;s blog
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1635398525318"
+                action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function () {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    How do neural networks see depth in single images?
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-10-28 ·
+                    </time>
+                    
+                        <a href="https://cisse-away.github.io/tag/8McWCEH-E/" class="post-tags">
+                            # 论文
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/WP9AiAWcme/" class="post-tags">
+                            # 深度估计
+                        </a>
+                    
+                        <a href="https://cisse-away.github.io/tag/hYv6ViS1w/" class="post-tags">
+                            # Deeplearning
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p><a href="https://arxiv.org/pdf/1905.07005">论文链接</a></p>
+<p>作者：<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=van+Dijk%2C+T">Tom van Dijk</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=de+Croon%2C+G+C">Guido C.H.E. de Croon</a></p>
+<h2 id="一-摘要">一、摘要</h2>
+<blockquote>
+<p>​    Deep neural networks have lead to a breakthrough in depth estimation from single images. Recent work often focuses on the accuracy of the depth map, where an evaluation on a publicly available test set such as the KITTI vision benchmark is often the main result of the article. <strong>While such an evaluation shows how well neural networks can estimate depth, it does not show how they  do  this</strong>.  To the best of our knowledge, no work currently exists that analyzes what these networks have learned.<br>
+​     In this work we take the <strong>MonoDepth network</strong> by Godard et al. and investigate what visual cues it exploits for depth estimation. <strong>We find that the network ignore the apparent size of known obstacles in favor of their vertical position in the image.</strong> Using the vertical position requires the camera pose to be known; however <strong>we find that MonoDepth only partially corrects for changes in camera pitch and roll and that these influence the estimated depth towards obstacles</strong>. <strong>We further show that MonoDepth’s use of the vertical image position allows it to estimate the distance towards arbitrary obstacles, even those not appearing in the training  set,  but that it requires a strong edge at the ground contact point  of the object to do so</strong>. In future work we will investigate whether these observations also apply to other neural networks for monocular depth estimation.</p>
+</blockquote>
+<h2 id="二-介绍">二、介绍</h2>
+<ol>
+<li>当需要从相机图像估计深度时，一些方法将深度估计视为纯粹的几何问题，通常完全忽略图像中的内容信息（使用光流信息或者使用SLAM通过长时间跨度内组合图像对场景几何形状进行估计）</li>
+<li>当只有单张图像可用时，不太可能使用对极几何，算法需要依赖图像线索</li>
+<li>为什么知道神经网络学习了什么很重要？
+<ul>
+<li>在不知道网络做什么的情况下很难保证正确的行为</li>
+<li>了解网络学到了什么可以为训练提供启示</li>
+<li>它提供了对转移到其他设置的洞察</li>
+</ul>
+</li>
+<li>作者将神经网络看成一个黑盒，仅测量其对特定输入的反馈。通过修改或干扰图像，在产生的深度图中寻找相关性</li>
+</ol>
+<h2 id="三-相关工作">三、相关工作</h2>
+<ol>
+<li>目前存在的神经网络评估方法有特征可视化和归因，虽然这些方法提供了对CNN工作的洞察，但它们并没有直接回答神经网络如何估计深度。神经网络敏感的特征集合并不是对其行为的解释</li>
+<li>关于人类深度感知的文献提供了可用图像线索的洞察：位置、遮挡、纹理密度、线性透视、尺寸、阴影和照明、焦点模糊与空中视角。作者预估只有物体的位置与大小线索适用于KITTI数据集</li>
+<li>Epstein表明感知距离不仅取决于视野中的垂直距离，还取决于背景；另一个重要的背景特征是地平线；Ooi等人表明人类使用相对于”眼睛水平“的角偏角，而不是视地平线（视野中地平线的预期高度）；物体的尺寸也会影响它们的估计深度</li>
+</ol>
+<h2 id="四-位置-vs-尺寸">四、位置 VS. 尺寸</h2>
+<ol>
+<li>使用位置和尺寸这两个线索来估计与障碍物的深度示意图：<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110231456280.png" alt="image-20211023145600050" loading="lazy"><br>
+假设相机的焦距已知且固定，由神经网络隐式学习</li>
+</ol>
+<ul>
+<li>给定物体在真实世界的大小<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span></span></span></span>和图像中的大小<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>h</mi></mrow><annotation encoding="application/x-tex">h</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">h</span></span></span></span>可以使用以下方法估计深度：<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Z</mi><mo>=</mo><mfrac><mi>f</mi><mi>h</mi></mfrac><mi>H</mi></mrow><annotation encoding="application/x-tex">Z=\frac{f}{h} H
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.0574399999999997em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714399999999998em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">h</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span></span></span></span></span></p>
+这需要物体的真实大小<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span></span></span></span>是已知的，而在KITTI数据集中经常遇到的对象类别有限且一个类中所有对象都有差不多的尺寸，因此网络可能已经学会识别这些物体并用尺寸来估计它们的深度</li>
+<li>网络可以用物体与地面接触点的垂直图像位置<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span></span>来估计深度：<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Z</mi><mo>=</mo><mfrac><mi>f</mi><mi>y</mi></mfrac><mi>Y</mi></mrow><annotation encoding="application/x-tex">Z=\frac{f}{y} Y
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.25188em;vertical-align:-0.8804400000000001em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714399999999998em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.8804400000000001em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span></span></span></span></span></p>
+这种方法不需要任何关于物体真实大小的信息，而是假设存在一个平坦地面和固定或已知的相机姿态。这些假设在 KITTI 数据集中也同样有效</li>
+</ul>
+<ol start="2">
+<li>评价方法<br>
+生成三组测试图像：
+<ul>
+<li>尺寸不同但与图像中地面接触点的垂直距离不变</li>
+<li>垂直距离不同但尺寸保持不变</li>
+<li>大小和位置都随距离而变化<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281236145.png" alt="image-20211028123623939" loading="lazy"></li>
+</ul>
+</li>
+<li>结果：<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281217676.png" alt="image-20211028121706562" loading="lazy">
+<ul>
+<li>当位置和尺度都可变时，深度估计表现符合预期</li>
+<li>当只有垂直位置可变时，MonoDepth仍能估计目标的距离</li>
+<li>当只有尺寸可变时，MonoDepth不会观察到任何距离变化</li>
+</ul>
+</li>
+<li>结论：
+<ul>
+<li>MonoDepth主要依赖于物体的垂直位置而不是它们的尺寸</li>
+<li>使用垂直位置意味着MonoDepth假设存在平坦的地面，并且相机的姿态已知</li>
+</ul>
+</li>
+</ol>
+<h2 id="五-相机姿态是默认固定的还是即时估计的">五、相机姿态是默认固定的还是即时估计的？</h2>
+<ol>
+<li>相机俯仰
+<ul>
+<li>判断依据：若MonoDepth可以测量相机俯仰情况，那么俯仰的变化也应该会在估计深度图中反映出来</li>
+<li>评估方法：寻找图像中真实地平线与深度估计中估计地平线之间的相关性</li>
+<li>实验结果：见下图，可以看出地平线的偏移并未完全反映在估计深度图中<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110272011389.png" alt="image-20211027201133768" style="zoom: 67%;" /></li>
+<li>进一步实验：为排除第一个实验中数据以及真实地平线小范围移动可能存在的问题，作者通过在不同高度裁剪图像来模拟更大的摄像机俯仰角，只用裁剪图像的深度估计出的地平线作为参考值。即实验评估地平线的偏移在深度估计中的反映程度，而不是地平线的绝对位置</li>
+<li>实验结果：同第一个实验，地平线水平的偏移并未完全在深度估计反映出来，而且相机俯仰变化会干扰对物体的估计深度<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110280904820.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>相机转动
+<ul>
+<li>判断依据：同相机的俯仰角，若相机转动角变化，也应在估计深度图中反映出来</li>
+<li>评估方法：以不同的角度裁剪图像中较小区域，然后从估计深度图中提取转动角度，寻找转动角与深度估计的相关性</li>
+<li>实验结果：MonoDepth能够检测到相机的转动角，但是这个角度在生成的深度图中太小了。即相机的转动情况也同样未完全反映在深度图中<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110280923738.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ol>
+<h2 id="六-障碍物识别">六、障碍物识别</h2>
+<p>第四部分得出MonoDepth使用物体的垂直距离来估计它们的距离，而这只需要知道物体与地面的接触点。然而下图显示出MonoDepth依赖与一些适用于车而不适用于其他物体的特征集合：<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110280959284.png" alt="image-20211028095947110" loading="lazy"><br>
+所以，为了正确估计出物体的深度，神经网络应能：</p>
+<ul>
+<li>找到物体与地面的接触点</li>
+<li>找到物体的轮廓</li>
+</ul>
+<ol>
+<li>颜色和纹理
+<ul>
+<li>实验依据：上图车与其他物体颜色、纹理、形状信息不同</li>
+<li>实验方法：
+<ul>
+<li>为测试颜色影响，生成两个新测试集，一个将图像转换成灰度图，另一个将色调和饱和度通道替换为语义RGB数据集的通道</li>
+<li>为测试纹理影响，生成两个新测试集，一个将所有对象都替换为该对象类平均值的单一颜色，另一个将语义RGB数据集中的对象替换成不现实的单色</li>
+<li>测试集样例：<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281319096.png" alt="image-20211028101334727" loading="lazy"></li>
+</ul>
+</li>
+<li>实验结果：<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281017483.png" alt="image-20211028101757378" loading="lazy"><br>
+如图所示可以看出与颜色信息相比，纹理信息影响会大一些</li>
+</ul>
+</li>
+<li>阴影与对比度
+<ul>
+<li>实验一：将具有汽车纹理的三角形与具有均匀黑色纹理的三角形粘贴到图像中<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281033167.png" alt="image-20211028103339023" loading="lazy"><br>
+实验表明物体不需要网络熟悉的纹理或形状就能被检测到，深度似乎是从物体最低点开始的，这也支持了基于垂直距离估计深度的说法</li>
+<li>实验二：移除汽车的各个部分<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281041303.png" alt="image-20211028104156059" loading="lazy"><br>
+实验表明神经网络基于物体底部和侧边对其进行填充</li>
+<li>实验三：将本小节第一张图中未识别出来的物体底下添加阴影<br>
+<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281207264.png" alt="image-20211028120733141" loading="lazy"><br>
+实验表明添加阴影后之前未识别出来的物体也能够被识别出来，不过冰箱在深度图中只识别出下半部分</li>
+</ul>
+</li>
+</ol>
+<h2 id="七-结论">七、结论</h2>
+<ol>
+<li>MonoDepth神经网络主要使用垂直距离而不是尺寸来估计深度信息</li>
+<li>这种估计依赖于相机的姿态，但姿态改变并没有完全在深度图中显现</li>
+<li>MonoDepth可以检测出未出现在训练集的物体，但这取决于外部环境（例如阴影）且并不总是可信的</li>
+</ol>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://cisse-away.github.io/post/visualization-of-convolutional-neural-networksfor-monocular-depth-estimation/" class="post-title gt-a-link">
+                    Visualization of Convolutional Neural Networksfor Monocular Depth Estimation
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Record Growth</div>
+    <div class="social-container">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://cisse-away.github.io//atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>
