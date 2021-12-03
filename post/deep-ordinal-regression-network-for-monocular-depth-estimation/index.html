@@ -6,7 +6,7 @@
 
 <title>Deep Ordinal Regression Network for Monocular Depth Estimation | CisseAway&#39;s blog</title>
 
-<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1638520445108">
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1638520917905">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
@@ -179,7 +179,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1638520445108"
+            <form id="gridea-search-form" style="position: relative" data-update="1638520917905"
                 action="/search/index.html">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -239,7 +239,7 @@
 </ol>
 <h2 id="三-方法">三、 方法</h2>
 <h4 id="网络结构">网络结构</h4>
-<figure data-type="image" tabindex="1"><img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111121523107.png" alt="image-20211112152311702" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111121523107.png" alt="image-20211112152311702" loading="lazy"></figure>
 <ol>
 <li>稠密特征提取器<br>
 作者去除DCNN的最后几个下采样操作并使用膨胀卷积来扩大卷积核的视野，且不降低空间分辨率或增加参数数量</li>
@@ -249,13 +249,13 @@
 <li>ASPP模块</li>
 <li>交叉通道学习器(1×1卷积)</li>
 <li>全图像编码器<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111121657093.png" alt="image-20211112165759009" loading="lazy"><br>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111121657093.png" alt="image-20211112165759009" loading="lazy"><br>
 结构中额外的两个卷积层前者减少特征维度并且学习复杂的交叉通道交互信息，后者将特征转换到多通道稠密有序标签</li>
 </ul>
 </li>
 </ol>
 <h4 id="递增间距离散化">递增间距离散化</h4>
-<figure data-type="image" tabindex="2"><img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111131640420.png" alt="image-20211113164024226" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111131640420.png" alt="image-20211113164024226" loading="lazy"></figure>
 <ol>
 <li>因为均匀离散(UD)策略会对较大的深度值产生一个过度关注的损失，于是作者使用SID策略，它在对数空间中对给定的深度区间进行均匀离散，减小具有较大深度值区域的训练损失</li>
 <li>假设深度区间<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>α</mi><mo separator="true">,</mo><mi>β</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[\alpha, \beta]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05278em;">β</span><span class="mclose">]</span></span></span></span>需要离散成K个子区间，UD和SID可以表示成：<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mtable><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext> UD: </mtext></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>t</mi><mi>i</mi></msub><mo>=</mo><mi>α</mi><mo>+</mo><mo>(</mo><mi>β</mi><mo>−</mo><mi>α</mi><mo>)</mo><mo>∗</mo><mi>i</mi><mi mathvariant="normal">/</mi><mi>K</mi><mo separator="true">,</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext> SID: </mtext></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>t</mi><mi>i</mi></msub><mo>=</mo><msup><mi>e</mi><mrow><mi>log</mi><mo>⁡</mo><mo>(</mo><mi>α</mi><mo>)</mo><mo>+</mo><mfrac><mrow><mi>log</mi><mo>⁡</mo><mo>(</mo><mi>β</mi><mi mathvariant="normal">/</mi><mi>α</mi><mo>)</mo><mo>∗</mo><mi>i</mi></mrow><mi>K</mi></mfrac></mrow></msup><mo separator="true">,</mo></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{array}{ll}
@@ -287,24 +287,24 @@
 <h4 id="基准性能">基准性能</h4>
 <ol>
 <li>户外数据集KITTI和Make3D：<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111131843690.png" alt="image-20211113184254906" loading="lazy"><br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111131852110.png" alt="image-20211113185234977" loading="lazy"><br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111131849840.png" alt="image-20211113184839377" loading="lazy"><br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111131852814.png" alt="image-20211113185244676" loading="lazy"></li>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111131843690.png" alt="image-20211113184254906" loading="lazy"><br>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111131852110.png" alt="image-20211113185234977" loading="lazy"><br>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111131849840.png" alt="image-20211113184839377" loading="lazy"><br>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111131852814.png" alt="image-20211113185244676" loading="lazy"></li>
 <li>室内数据集NYU Depth v2：<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111131855686.png" alt="image-20211113185444497" loading="lazy"></li>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111131855686.png" alt="image-20211113185444497" loading="lazy"></li>
 <li>在线测试：<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111131856831.png" alt="image-20211113185646753" loading="lazy"><br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111131856050.png" alt="image-20211113185653967" loading="lazy"></li>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111131856831.png" alt="image-20211113185646753" loading="lazy"><br>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111131856050.png" alt="image-20211113185653967" loading="lazy"></li>
 </ol>
 <h4 id="消融实验">消融实验</h4>
 <ol>
 <li>深度离散<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111131907401.png" alt="image-20211113190750294" loading="lazy"></li>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111131907401.png" alt="image-20211113190750294" loading="lazy"></li>
 <li>全图像编码器<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111131907307.png" alt="image-20211113190759232" loading="lazy"></li>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111131907307.png" alt="image-20211113190759232" loading="lazy"></li>
 <li>间隔数<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202111131908928.png" alt="image-20211113190810824" loading="lazy"></li>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202111131908928.png" alt="image-20211113190810824" loading="lazy"></li>
 </ol>
 <h2 id="五-结论">五、 结论</h2>
 <ol>

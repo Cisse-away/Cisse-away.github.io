@@ -6,7 +6,7 @@
 
 <title>How do neural networks see depth in single images? | CisseAway&#39;s blog</title>
 
-<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1638520445108">
+<link rel="shortcut icon" href="https://cisse-away.github.io//favicon.ico?v=1638520917905">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cisse-away.github.io//styles/main.css">
@@ -179,7 +179,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1638520445108"
+            <form id="gridea-search-form" style="position: relative" data-update="1638520917905"
                 action="/search/index.html">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -252,7 +252,7 @@
 <h2 id="四-位置-vs-尺寸">四、位置 VS. 尺寸</h2>
 <ol>
 <li>使用位置和尺寸这两个线索来估计与障碍物的深度示意图：<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110231456280.png" alt="image-20211023145600050" loading="lazy"><br>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110231456280.png" alt="image-20211023145600050" loading="lazy"><br>
 假设相机的焦距已知且固定，由神经网络隐式学习</li>
 </ol>
 <ul>
@@ -270,11 +270,11 @@
 <li>尺寸不同但与图像中地面接触点的垂直距离不变</li>
 <li>垂直距离不同但尺寸保持不变</li>
 <li>大小和位置都随距离而变化<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281236145.png" alt="image-20211028123623939" loading="lazy"></li>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110281236145.png" alt="image-20211028123623939" loading="lazy"></li>
 </ul>
 </li>
 <li>结果：<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281217676.png" alt="image-20211028121706562" loading="lazy">
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110281217676.png" alt="image-20211028121706562" loading="lazy">
 <ul>
 <li>当位置和尺度都可变时，深度估计表现符合预期</li>
 <li>当只有垂直位置可变时，MonoDepth仍能估计目标的距离</li>
@@ -295,10 +295,10 @@
 <li>判断依据：若MonoDepth可以测量相机俯仰情况，那么俯仰的变化也应该会在估计深度图中反映出来</li>
 <li>评估方法：寻找图像中真实地平线与深度估计中估计地平线之间的相关性</li>
 <li>实验结果：见下图，可以看出地平线的偏移并未完全反映在估计深度图中<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110272011389.png" alt="image-20211027201133768" style="zoom: 67%;" /></li>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110272011389.png" alt="image-20211027201133768" style="zoom: 67%;" /></li>
 <li>进一步实验：为排除第一个实验中数据以及真实地平线小范围移动可能存在的问题，作者通过在不同高度裁剪图像来模拟更大的摄像机俯仰角，只用裁剪图像的深度估计出的地平线作为参考值。即实验评估地平线的偏移在深度估计中的反映程度，而不是地平线的绝对位置</li>
 <li>实验结果：同第一个实验，地平线水平的偏移并未完全在深度估计反映出来，而且相机俯仰变化会干扰对物体的估计深度<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110280904820.png" alt="" loading="lazy"></li>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110280904820.png" alt="" loading="lazy"></li>
 </ul>
 </li>
 <li>相机转动
@@ -306,13 +306,13 @@
 <li>判断依据：同相机的俯仰角，若相机转动角变化，也应在估计深度图中反映出来</li>
 <li>评估方法：以不同的角度裁剪图像中较小区域，然后从估计深度图中提取转动角度，寻找转动角与深度估计的相关性</li>
 <li>实验结果：MonoDepth能够检测到相机的转动角，但是这个角度在生成的深度图中太小了。即相机的转动情况也同样未完全反映在深度图中<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110280923738.png" alt="" loading="lazy"></li>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110280923738.png" alt="" loading="lazy"></li>
 </ul>
 </li>
 </ol>
 <h2 id="六-障碍物识别">六、障碍物识别</h2>
 <p>第四部分得出MonoDepth使用物体的垂直距离来估计它们的距离，而这只需要知道物体与地面的接触点。然而下图显示出MonoDepth依赖与一些适用于车而不适用于其他物体的特征集合：<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110280959284.png" alt="image-20211028095947110" loading="lazy"><br>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110280959284.png" alt="image-20211028095947110" loading="lazy"><br>
 所以，为了正确估计出物体的深度，神经网络应能：</p>
 <ul>
 <li>找到物体与地面的接触点</li>
@@ -327,24 +327,24 @@
 <li>为测试颜色影响，生成两个新测试集，一个将图像转换成灰度图，另一个将色调和饱和度通道替换为语义RGB数据集的通道</li>
 <li>为测试纹理影响，生成两个新测试集，一个将所有对象都替换为该对象类平均值的单一颜色，另一个将语义RGB数据集中的对象替换成不现实的单色</li>
 <li>测试集样例：<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281319096.png" alt="image-20211028101334727" loading="lazy"></li>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110281319096.png" alt="image-20211028101334727" loading="lazy"></li>
 </ul>
 </li>
 <li>实验结果：<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281017483.png" alt="image-20211028101757378" loading="lazy"><br>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110281017483.png" alt="image-20211028101757378" loading="lazy"><br>
 如图所示可以看出与颜色信息相比，纹理信息影响会大一些</li>
 </ul>
 </li>
 <li>形状与对比度
 <ul>
 <li>实验一：将具有汽车纹理的三角形与具有均匀黑色纹理的三角形粘贴到图像中<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281033167.png" alt="image-20211028103339023" loading="lazy"><br>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110281033167.png" alt="image-20211028103339023" loading="lazy"><br>
 实验表明物体不需要网络熟悉的纹理或形状就能被检测到，深度似乎是从物体最低点开始的，这也支持了基于垂直距离估计深度的说法</li>
 <li>实验二：移除汽车的各个部分<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281041303.png" alt="image-20211028104156059" loading="lazy"><br>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110281041303.png" alt="image-20211028104156059" loading="lazy"><br>
 实验表明神经网络基于物体底部和侧边对其进行填充</li>
 <li>实验三：将本小节第一张图中未识别出来的物体底下添加阴影<br>
-<img src="http://r1mztax48.hd-bkt.clouddn.com/img/202110281207264.png" alt="image-20211028120733141" loading="lazy"><br>
+<img src="http://r3j4qbnw4.hd-bkt.clouddn.com/img/202110281207264.png" alt="image-20211028120733141" loading="lazy"><br>
 实验表明添加阴影后之前未识别出来的物体也能够被识别出来，不过冰箱在深度图中只识别出下半部分</li>
 </ul>
 </li>
